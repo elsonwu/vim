@@ -73,11 +73,11 @@ Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
 Plug 'airblade/vim-gitgutter'
-Plug 'jiangmiao/auto-pairs'
+Plug 'tmsvg/pear-tree'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'altercation/vim-colors-solarized'
 Plug 'fholgado/minibufexpl.vim'
-Plug 'alvan/vim-acomment'
+Plug 'tpope/vim-commentary'
 call plug#end()
 
 """ vim-lsp
@@ -148,4 +148,3 @@ let g:startify_lists = [
     \ { 'type': 'sessions',  'header': ['   Sessions']       },
     \ { 'type': 'commands',  'header': ['   Commands']       },
     \ ]
-
