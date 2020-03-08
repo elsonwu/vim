@@ -72,19 +72,22 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
-Plug 'airblade/vim-gitgutter'
-Plug 'tmsvg/pear-tree'
+Plug 'frazrepo/vim-rainbow'
+Plug 'jiangmiao/auto-pairs'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'altercation/vim-colors-solarized'
-Plug 'fholgado/minibufexpl.vim'
+Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-commentary'
 call plug#end()
 
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
+    setlocal signcolumn=number
     nmap <buffer> gd <plug>(lsp-definition)
     " refer to doc to add more commands
 endfunction
@@ -96,7 +99,8 @@ augroup END
 
 """ theme
 syntax enable
-set guioptions-=LT
+set guioptions-=r
+set guioptions-=L
 set linespace=3
 set t_Co=256
 set guifont=Monaco:h13
@@ -104,8 +108,12 @@ set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
 let g:lightline = { 'colorscheme': 'wombat'}
+hi LineNr guibg=
+set foldcolumn=0
+hi foldcolumn guibg=bg
+hi VertSplit guibg=bg guifg=bg
 
-""" startify
+""" vim-startify
 au User Startified nmap <buffer> o <plug>(startify-open-buffers)
 let g:startify_custom_header = []
 let g:startify_bookmarks = [ 
@@ -117,11 +125,12 @@ let g:startify_bookmarks = [
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeIgnore = ['\~$', '\.pyc$', '\.DS_Store']
-let g:NERDTreeHijackNetrw = 0
+let g:NERDTreeHijackNetrw = 1
 let g:NERDTreeCascadeSingleChildDir = 0
 let g:NERDTreeCascadeOpenSingleChildDir = 0
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
+let g:NERDTreeAutoDeleteBuffer = 1
 nn <leader>ww :ToggleBufExplorer<CR>
 nn <leader>wf :NERDTreeFind<CR>
 nn <leader>wh :NERDTreeToggle<CR>
@@ -132,7 +141,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 """ rust
 let g:rustfmt_autosave = 1
 
-""" go
+""" vim-go
 let g:go_fmt_command = "goimports"
 
 """ fzf
@@ -140,7 +149,7 @@ command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-h
 set grepprg=rg\ --vimgrep
 nnoremap <C-p> :FZF<CR>
 
-""" startify
+""" vim-startify
 let g:startify_lists = [
     \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
     \ { 'type': 'files',     'header': ['   MRU']            },
@@ -148,3 +157,12 @@ let g:startify_lists = [
     \ { 'type': 'sessions',  'header': ['   Sessions']       },
     \ { 'type': 'commands',  'header': ['   Commands']       },
     \ ]
+
+""" rainbow
+let g:rainbow_active = 1
+
+""" vim-buftabline
+set hidden
+nnoremap <C-N> :bnext<CR>
+nnoremap <C-P> :bprev<CR>
+
