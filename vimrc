@@ -50,6 +50,8 @@ set pumheight=15
 set completeopt=menuone
 set complete-=k complete+=k
 set tags+=tags;
+syntax on
+filetype plugin on
 
 """ Plug
 call plug#begin('~/.vim/plugged')
@@ -65,19 +67,19 @@ Plug 'runoshun/tscompletejob'
 Plug 'prabirshrestha/asyncomplete-tscompletejob.vim'
 Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'keremc/asyncomplete-racer.vim'
-
 Plug 'preservim/nerdtree'
 Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
-Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
+Plug 'valloric/MatchTagAlways'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'altercation/vim-colors-solarized'
 Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 """ vim-lsp
@@ -98,7 +100,9 @@ augroup lsp_install
 augroup END
 
 """ theme
-syntax enable
+if has('nvim') || has('termguicolors')
+  set termguicolors
+endif
 set guioptions-=r
 set guioptions-=L
 set linespace=3
@@ -107,9 +111,10 @@ set guifont=Monaco:h13
 set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
-let g:lightline = { 'colorscheme': 'wombat'}
-hi LineNr guibg=
 set foldcolumn=0
+if has('gui_running')
+  hi LineNr guibg=
+endif
 hi foldcolumn guibg=bg
 hi VertSplit guibg=bg guifg=bg
 
@@ -144,10 +149,15 @@ let g:rustfmt_autosave = 1
 """ vim-go
 let g:go_fmt_command = "goimports"
 
+""" vim-buftabline
+set hidden
+nnoremap <C-n> :bnext<CR>
+nnoremap <C-p> :bprev<CR>
+
 """ fzf
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 set grepprg=rg\ --vimgrep
-nnoremap <C-p> :FZF<CR>
+" nnoremap <C-p> :FZF<CR>
 
 """ vim-startify
 let g:startify_lists = [
@@ -161,8 +171,17 @@ let g:startify_lists = [
 """ rainbow
 let g:rainbow_active = 1
 
-""" vim-buftabline
-set hidden
-nnoremap <C-N> :bnext<CR>
-nnoremap <C-P> :bprev<CR>
+""" itchyny/lightline.vim  """
+set noshowmode
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+
 
