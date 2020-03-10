@@ -77,14 +77,15 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'valloric/MatchTagAlways'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'altercation/vim-colors-solarized'
-Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'fholgado/minibufexpl.vim'
 call plug#end()
 
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
 let g:lsp_diagnostics_enabled = 1
+let g:lsp_signs_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
 
 function! s:on_lsp_buffer_enabled() abort
@@ -100,9 +101,6 @@ augroup lsp_install
 augroup END
 
 """ theme
-if has('nvim') || has('termguicolors')
-  set termguicolors
-endif
 set guioptions-=r
 set guioptions-=L
 set linespace=3
@@ -136,11 +134,7 @@ let g:NERDTreeCascadeOpenSingleChildDir = 0
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
 let g:NERDTreeAutoDeleteBuffer = 1
-nn <leader>ww :ToggleBufExplorer<CR>
-nn <leader>wf :NERDTreeFind<CR>
 nn <leader>wh :NERDTreeToggle<CR>
-nn <leader>wl :TagbarToggle<CR>
-nn <leader>wm :TagbarToggle<CR>:NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 """ rust
