@@ -33,10 +33,11 @@ set hls
 set incsearch
 set expandtab
 set autoindent " same level indent
-set smartindent " next level indent
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+" set smartindent " next level indent
+set cindent
+set tabstop=4
+set shiftwidth=4
+" set softtabstop=4
 set foldmethod=indent   " fold based on indent
 set foldnestmax=3       " deepest fold is 3 levels
 set nofoldenable        " dont fold by default
@@ -79,7 +80,7 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'fholgado/minibufexpl.vim'
+Plug 'ap/vim-buftabline'
 call plug#end()
 
 """ vim-lsp
@@ -135,7 +136,7 @@ let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
 let g:NERDTreeAutoDeleteBuffer = 1
 nn <leader>wh :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 """ rust
 let g:rustfmt_autosave = 1
@@ -178,4 +179,9 @@ let g:lightline = {
       \ },
       \ }
 
-
+" indent
+autocmd Filetype php setlocal ts=4 sw=4 
+autocmd Filetype html setlocal ts=2 sw=2
+autocmd Filetype json setlocal ts=2 sw=2
+autocmd Filetype javascript setlocal ts=2 sw=2
+autocmd Filetype typescript setlocal ts=2 sw=2
