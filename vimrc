@@ -81,6 +81,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'ap/vim-buftabline'
+Plug 'qpkorr/vim-bufkill'
 call plug#end()
 
 """ vim-lsp
@@ -136,6 +137,7 @@ let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
 let g:NERDTreeAutoDeleteBuffer = 1
 nn <leader>wh :NERDTreeToggle<CR>
+nn <leader>ff :NERDTreeFind<CR>
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 """ rust
@@ -178,6 +180,9 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead'
       \ },
       \ }
+
+""" vim-bufkill
+nn <leader>bd :BD<CR>
 
 " indent
 autocmd Filetype php setlocal ts=4 sw=4 
