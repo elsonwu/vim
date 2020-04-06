@@ -35,9 +35,9 @@ set expandtab
 set autoindent " same level indent
 " set smartindent " next level indent
 set cindent
-set tabstop=4
-set shiftwidth=4
-" set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set foldmethod=indent   " fold based on indent
 set foldnestmax=3       " deepest fold is 3 levels
 set nofoldenable        " dont fold by default
@@ -56,7 +56,6 @@ filetype plugin on
 
 """ Plug
 call plug#begin('~/.vim/plugged')
-" auto complete
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
@@ -70,6 +69,7 @@ Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'keremc/asyncomplete-racer.vim'
 Plug 'preservim/nerdtree'
 Plug 'fatih/vim-go', { 'tag': '*' }
+Plug 'rust-lang/rust.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
@@ -82,6 +82,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'ap/vim-buftabline'
 Plug 'qpkorr/vim-bufkill'
+Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-surround'
 call plug#end()
 
 """ vim-lsp
@@ -89,11 +91,15 @@ let g:asyncomplete_auto_popup = 0
 let g:lsp_diagnostics_enabled = 1
 let g:lsp_signs_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_highlight_references_enabled = 1
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=number
     nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gf <plug>(lsp-references)
+    nmap <buffer> <leader>h <plug>(lsp-hover)
+    nmap <buffer> <leader>fm :LspDocumentRangeFormat<CR>
     " refer to doc to add more commands
 endfunction
 augroup lsp_install
@@ -107,7 +113,7 @@ set guioptions-=r
 set guioptions-=L
 set linespace=3
 set t_Co=256
-set guifont=Monaco:h13
+set guifont=Monaco:h14
 set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
@@ -129,6 +135,7 @@ let g:startify_bookmarks = [
 """ NERDTree
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeChDirMode = 2
+let g:NERDTreeWinSize=40
 let g:NERDTreeIgnore = ['\~$', '\.pyc$', '\.DS_Store']
 let g:NERDTreeHijackNetrw = 1
 let g:NERDTreeCascadeSingleChildDir = 0
@@ -140,21 +147,21 @@ nn <leader>wh :NERDTreeToggle<CR>
 nn <leader>ff :NERDTreeFind<CR>
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-""" rust
-let g:rustfmt_autosave = 1
-
 """ vim-go
 let g:go_fmt_command = "goimports"
 
+""" rust
+let g:rustfmt_autosave = 1
+
 """ vim-buftabline
 set hidden
-nnoremap <C-n> :bnext<CR>
-nnoremap <C-p> :bprev<CR>
+nn <C-n> :bnext<CR>
+nn <C-p> :bprev<CR>
 
 """ fzf
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*" --glob "!dist/*" --color "always" '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
+command! -bang -nargs=* CFind call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*" --glob "!dist/*" --color "always" '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
 set grepprg=rg\ --vimgrep
-" nnoremap <C-p> :FZF<CR>
 
 """ vim-startify
 let g:startify_lists = [
@@ -164,9 +171,6 @@ let g:startify_lists = [
     \ { 'type': 'sessions',  'header': ['   Sessions']       },
     \ { 'type': 'commands',  'header': ['   Commands']       },
     \ ]
-
-""" rainbow
-let g:rainbow_active = 1
 
 """ itchyny/lightline.vim  """
 set noshowmode
@@ -181,12 +185,15 @@ let g:lightline = {
       \ },
       \ }
 
-""" vim-bufkill
-nn <leader>bd :BD<CR>
-
 " indent
 autocmd Filetype php setlocal ts=4 sw=4 
 autocmd Filetype html setlocal ts=2 sw=2
 autocmd Filetype json setlocal ts=2 sw=2
 autocmd Filetype javascript setlocal ts=2 sw=2
 autocmd Filetype typescript setlocal ts=2 sw=2
+
+" remap to avoid mistake
+command WQ wq
+command Wq wq
+command W w
+command Q q
