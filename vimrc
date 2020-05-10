@@ -39,8 +39,7 @@ set cindent
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-set foldmethod=indent   " fold based on indent
-set foldnestmax=3       " deepest fold is 3 levels
+set foldmethod=manual   " fold manually only
 set nofoldenable        " dont fold by default
 set iskeyword+=_,@,%,#
 set linebreak
@@ -94,15 +93,15 @@ call plug#end()
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
 let g:lsp_diagnostics_enabled = 1
-let g:lsp_signs_enabled = 1
+" let g:lsp_signs_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_highlight_references_enabled = 1
+" let g:lsp_highlight_references_enabled = 1
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=number
     nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gf <plug>(lsp-references)
+    nmap <buffer> gr <plug>(lsp-references)
     nmap <buffer> <leader>h <plug>(lsp-hover)
     nmap <buffer> <leader>fm :LspDocumentRangeFormat<CR>
     " refer to doc to add more commands
@@ -169,7 +168,7 @@ nn <C-p> :bprev<CR>
 
 """ fzf
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*" --glob "!dist/*" --color "always" '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
-command! -bang -nargs=* CFind call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*" --glob "!dist/*" --color "always" '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
+command! -bang -nargs=* Cfind call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*" --glob "!dist/*" --color "always" '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
 set grepprg=rg\ --vimgrep
 
 """ vim-startify
