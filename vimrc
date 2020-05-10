@@ -16,6 +16,7 @@ set fenc=utf-8
 set fencs=ucs-bom,utf-8,cp936,gb18030,gbk,gb2312
 set laststatus=2
 set statusline=\ %F\ %Y\ %{&fileformat}\ %{&fileencoding}\ %{(&bomb?\"[BOM]\":\"\")}\ Row\ \[%l/%L\ %<%P]\ Col\ \[%c%V]\ \ %m\ %r
+" set cursorcolumn
 set wildmenu
 set showcmd
 set nosmd
@@ -70,6 +71,7 @@ Plug 'keremc/asyncomplete-racer.vim'
 Plug 'preservim/nerdtree'
 Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'rust-lang/rust.vim'
+Plug 'leafgarland/typescript-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
@@ -84,6 +86,9 @@ Plug 'ap/vim-buftabline'
 Plug 'qpkorr/vim-bufkill'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-surround'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
 call plug#end()
 
 """ vim-lsp
@@ -107,6 +112,10 @@ augroup lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+""" Prettier
+nmap <Leader>fmt <Plug>(Prettier)
+let g:prettier#autoformat_require_pragma = 1
 
 """ theme
 set guioptions-=r
