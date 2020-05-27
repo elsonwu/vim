@@ -86,8 +86,6 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-surround'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'pangloss/vim-javascript'
-Plug 'MaxMEllon/vim-jsx-pretty'
 call plug#end()
 
 """ vim-lsp
@@ -103,7 +101,6 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gd <plug>(lsp-definition)
     nmap <buffer> gr <plug>(lsp-references)
     nmap <buffer> <leader>h <plug>(lsp-hover)
-    nmap <buffer> <leader>fm :LspDocumentRangeFormat<CR>
     " refer to doc to add more commands
 endfunction
 augroup lsp_install
