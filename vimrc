@@ -56,29 +56,28 @@ filetype plugin on
 
 """ Plug
 call plug#begin('~/.vim/plugged')
+" must have for lsp
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/asyncomplete-gocode.vim'
 Plug 'ajh17/VimCompletesMe'
-Plug 'runoshun/tscompletejob'
-Plug 'prabirshrestha/asyncomplete-tscompletejob.vim'
-Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'keremc/asyncomplete-racer.vim'
-Plug 'preservim/nerdtree'
+
+" language specific
 Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'rust-lang/rust.vim'
 Plug 'leafgarland/typescript-vim'
+
+" utils & theme
+Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'preservim/nerdtree'
 Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
 Plug 'jiangmiao/auto-pairs'
 Plug 'valloric/MatchTagAlways'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'ap/vim-buftabline'
@@ -86,14 +85,18 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-surround'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'romainl/flattened'
+Plug 'janko/vim-test'
+Plug 'tpope/vim-dispatch'
 call plug#end()
 
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
 let g:lsp_diagnostics_enabled = 1
-" let g:lsp_signs_enabled = 1
+let g:lsp_signs_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 1
-" let g:lsp_highlight_references_enabled = 1
+let g:lsp_fold_enabled = 0
+let g:lsp_highlight_references_enabled = 0
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -109,6 +112,9 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
+""" test
+let test#strategy = "dispatch"
+
 """ Prettier
 nmap <Leader>fmt <Plug>(Prettier)
 let g:prettier#autoformat_require_pragma = 1
@@ -120,11 +126,13 @@ set linespace=3
 set t_Co=256
 set guifont=Monaco:h14
 set background=dark
-let g:solarized_termcolors=256
-colorscheme solarized
+colorscheme flattened_dark
 set foldcolumn=0
 if has('gui_running')
   hi LineNr guibg=
+  if (has("termguicolors"))
+    set termguicolors
+  endif
 endif
 hi foldcolumn guibg=bg
 hi VertSplit guibg=bg guifg=bg
