@@ -23,7 +23,7 @@ set nosmd
 set shortmess=atI
 set scrolloff=5
 set cc=120
-set nu!
+set nu
 set cul
 set ambiwidth=double
 set smartcase
@@ -57,9 +57,9 @@ filetype plugin on
 """ Plug
 call plug#begin('~/.vim/plugged')
 " must have for lsp
-Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'ajh17/VimCompletesMe'
@@ -71,7 +71,7 @@ Plug 'leafgarland/typescript-vim'
 
 " utils & theme
 Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --update-rc' }
 Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
 Plug 'itchyny/lightline.vim'
@@ -87,7 +87,8 @@ Plug 'tpope/vim-surround'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'romainl/flattened'
 Plug 'janko/vim-test'
-Plug 'tpope/vim-dispatch'
+Plug 'dracula/vim', { 'as': 'dracula' }
+" Plug 'zivyangll/git-blame.vim'
 call plug#end()
 
 """ vim-lsp
@@ -113,7 +114,7 @@ augroup lsp_install
 augroup END
 
 """ test
-let test#strategy = "dispatch"
+let test#strategy = 'vimterminal'
 
 """ Prettier
 nmap <Leader>fmt <Plug>(Prettier)
@@ -124,12 +125,15 @@ set guioptions-=r
 set guioptions-=L
 set linespace=3
 set t_Co=256
-set guifont=Monaco:h14
+" set guifont=Monaco:h14
+set guifont=JetBrains\ Mono:h14
 set background=dark
-colorscheme flattened_dark
+" colorscheme flattened_dark
+colorscheme dracula
+
 set foldcolumn=0
 if has('gui_running')
-  hi LineNr guibg=
+  hi LineNr guibg=NONE
   if (has("termguicolors"))
     set termguicolors
   endif
@@ -172,9 +176,10 @@ nn <C-n> :bnext<CR>
 nn <C-p> :bprev<CR>
 
 """ fzf
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*" --glob "!dist/*" --color "always" '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
-command! -bang -nargs=* Cfind call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*" --glob "!dist/*" --color "always" '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --hidden --follow --color "always" --ignore-case '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
+command! -bang -nargs=* Cfind call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --hidden --follow --color "always" '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
 set grepprg=rg\ --vimgrep
+nn <leader>F :Find 
 
 """ vim-startify
 let g:startify_lists = [
