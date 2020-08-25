@@ -87,8 +87,7 @@ Plug 'tpope/vim-surround'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'romainl/flattened'
 Plug 'janko/vim-test'
-Plug 'dracula/vim', { 'as': 'dracula' }
-" Plug 'zivyangll/git-blame.vim'
+Plug 'rhysd/clever-f.vim'
 call plug#end()
 
 """ vim-lsp
@@ -98,6 +97,7 @@ let g:lsp_signs_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_fold_enabled = 0
 let g:lsp_highlight_references_enabled = 0
+let g:lsp_documentation_float = 0
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -128,8 +128,7 @@ set t_Co=256
 " set guifont=Monaco:h14
 set guifont=JetBrains\ Mono:h14
 set background=dark
-" colorscheme flattened_dark
-colorscheme dracula
+colorscheme flattened_dark
 
 set foldcolumn=0
 if has('gui_running')
