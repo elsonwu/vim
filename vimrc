@@ -16,7 +16,6 @@ set fenc=utf-8
 set fencs=ucs-bom,utf-8,cp936,gb18030,gbk,gb2312
 set laststatus=2
 set statusline=\ %F\ %Y\ %{&fileformat}\ %{&fileencoding}\ %{(&bomb?\"[BOM]\":\"\")}\ Row\ \[%l/%L\ %<%P]\ Col\ \[%c%V]\ \ %m\ %r
-" set cursorcolumn
 set wildmenu
 set showcmd
 set nosmd
@@ -34,7 +33,6 @@ set hls
 set incsearch
 set expandtab
 set autoindent " same level indent
-" set smartindent " next level indent
 set cindent
 set tabstop=2
 set shiftwidth=2
@@ -56,7 +54,7 @@ filetype plugin on
 
 """ Plug
 call plug#begin('~/.vim/plugged')
-" must have for lsp
+" for lsp
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/async.vim'
@@ -82,12 +80,13 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'ap/vim-buftabline'
 Plug 'qpkorr/vim-bufkill'
-Plug 'easymotion/vim-easymotion'
+Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-surround'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'romainl/flattened'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'janko/vim-test'
-Plug 'rhysd/clever-f.vim'
+Plug 'djoshea/vim-autoread'
 call plug#end()
 
 """ vim-lsp
@@ -105,7 +104,6 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gd <plug>(lsp-definition)
     nmap <buffer> gr <plug>(lsp-references)
     nmap <buffer> <leader>h <plug>(lsp-hover)
-    " refer to doc to add more commands
 endfunction
 augroup lsp_install
     au!
@@ -113,22 +111,34 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
-""" test
-let test#strategy = 'vimterminal'
-
-""" Prettier
-nmap <Leader>fmt <Plug>(Prettier)
-let g:prettier#autoformat_require_pragma = 1
+" terminal emulation
+nn <silent> <leader>sh :terminal<CR>
 
 """ theme
 set guioptions-=r
 set guioptions-=L
 set linespace=3
 set t_Co=256
-" set guifont=Monaco:h14
 set guifont=JetBrains\ Mono:h14
 set background=dark
-colorscheme flattened_dark
+if has('gui_running')
+  colorscheme dracula
+else
+  colorscheme flattened_dark
+endif
+
+""" indent
+autocmd Filetype php setlocal ts=4 sw=4 
+autocmd Filetype html setlocal ts=2 sw=2
+autocmd Filetype json setlocal ts=2 sw=2
+autocmd Filetype javascript setlocal ts=2 sw=2
+autocmd Filetype typescript setlocal ts=2 sw=2
+
+""" remap to avoid mistake
+command WQ wq
+command Wq wq
+command W w
+command Q q
 
 set foldcolumn=0
 if has('gui_running')
@@ -140,13 +150,38 @@ endif
 hi foldcolumn guibg=bg
 hi VertSplit guibg=bg guifg=bg
 
+""" test
+let test#strategy = 'vimterminal'
+
+""" FZF search
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
+""" Prettier
+nmap <Leader>fmt <Plug>(Prettier)
+let g:prettier#autoformat_require_pragma = 1
+let g:prettier#autoformat_config_present = 1
+
+""" sneak
+let g:sneak#label = 1
+
 """ vim-startify
 au User Startified nmap <buffer> o <plug>(startify-open-buffers)
 let g:startify_custom_header = []
 let g:startify_bookmarks = [ 
-            \ $HOME.'/.vim/vimrc', 
-            \ $HOME.'/www',
-            \ ]
+      \ $HOME.'/.vim/vimrc', 
+      \ $HOME.'/www',
+      \ ]
+
+let g:startify_lists = [
+      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+      \ { 'type': 'files',     'header': ['   MRU']            },
+      \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+      \ { 'type': 'sessions',  'header': ['   Sessions']       },
+      \ { 'type': 'commands',  'header': ['   Commands']       },
+      \ ]
 
 """ NERDTree
 let g:NERDTreeMinimalUI = 1
@@ -174,22 +209,7 @@ set hidden
 nn <C-n> :bnext<CR>
 nn <C-p> :bprev<CR>
 
-""" fzf
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --hidden --follow --color "always" --ignore-case '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
-command! -bang -nargs=* Cfind call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --hidden --follow --color "always" '.shellescape(<q-args>).'| sort | tr -d "\017"', 1, <bang>0)
-set grepprg=rg\ --vimgrep
-nn <leader>F :Find 
-
-""" vim-startify
-let g:startify_lists = [
-    \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-    \ { 'type': 'files',     'header': ['   MRU']            },
-    \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-    \ { 'type': 'sessions',  'header': ['   Sessions']       },
-    \ { 'type': 'commands',  'header': ['   Commands']       },
-    \ ]
-
-""" itchyny/lightline.vim  """
+""" lightline
 set noshowmode
 let g:lightline = {
       \ 'colorscheme': 'wombat',
@@ -201,16 +221,3 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead'
       \ },
       \ }
-
-" indent
-autocmd Filetype php setlocal ts=4 sw=4 
-autocmd Filetype html setlocal ts=2 sw=2
-autocmd Filetype json setlocal ts=2 sw=2
-autocmd Filetype javascript setlocal ts=2 sw=2
-autocmd Filetype typescript setlocal ts=2 sw=2
-
-" remap to avoid mistake
-command WQ wq
-command Wq wq
-command W w
-command Q q
