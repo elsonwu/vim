@@ -122,9 +122,9 @@ set t_Co=256
 set guifont=JetBrains\ Mono:h14
 set background=dark
 if has('gui_running')
-  colorscheme dracula
+ silent! colorscheme dracula
 else
-  colorscheme flattened_dark
+ silent! colorscheme flattened_dark
 endif
 
 """ indent

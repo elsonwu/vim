@@ -1,4 +1,4 @@
 plugged/*
+autoload/*
 view/*
 .netrwhist
-autoload/plug.vim.*
