@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# common tools
+brew install vim ripgrep fzf
+
 # font install
 brew tap homebrew/cask-fonts
 brew cask install font-jetbrains-mono
