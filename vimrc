@@ -19,6 +19,7 @@ set statusline=\ %F\ %Y\ %{&fileformat}\ %{&fileencoding}\ %{(&bomb?\"[BOM]\":\"
 set wildmenu
 set showcmd
 set nosmd
+set magic
 set shortmess=atI
 set scrolloff=5
 set cc=120
@@ -49,7 +50,6 @@ set pumheight=15
 set completeopt=menuone
 set complete-=k complete+=k
 set tags+=tags;
-syntax on
 filetype plugin on
 
 """ Plug
@@ -82,7 +82,26 @@ Plug 'ap/vim-buftabline'
 Plug 'qpkorr/vim-bufkill'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-surround'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+" Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'branch': 'release/1.x',
+  \ 'for': [
+    \ 'javascript',
+    \ 'typescript',
+    \ 'css',
+    \ 'less',
+    \ 'scss',
+    \ 'json',
+    \ 'graphql',
+    \ 'markdown',
+    \ 'vue',
+    \ 'lua',
+    \ 'php',
+    \ 'python',
+    \ 'ruby',
+    \ 'html',
+    \ 'swift' ] }
 Plug 'romainl/flattened'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'janko/vim-test'
@@ -126,6 +145,7 @@ if has('gui_running')
 else
  silent! colorscheme flattened_dark
 endif
+syntax on
 
 """ indent
 autocmd Filetype php setlocal ts=4 sw=4 
@@ -133,12 +153,6 @@ autocmd Filetype html setlocal ts=2 sw=2
 autocmd Filetype json setlocal ts=2 sw=2
 autocmd Filetype javascript setlocal ts=2 sw=2
 autocmd Filetype typescript setlocal ts=2 sw=2
-
-""" remap to avoid mistake
-command WQ wq
-command Wq wq
-command W w
-command Q q
 
 set foldcolumn=0
 if has('gui_running')
@@ -151,12 +165,24 @@ hi foldcolumn guibg=bg
 hi VertSplit guibg=bg guifg=bg
 
 """ test
-let test#strategy = 'vimterminal'
+let test#strategy = 'terminal'
 
 """ FZF search
+nn <C-f> :FZF<CR>
+nn <leader>q :cclose<CR>
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=* RG
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always -s -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=* RW
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always -s -- '.expand('<cword>'), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
 """ Prettier
