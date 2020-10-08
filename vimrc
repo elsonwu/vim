@@ -69,6 +69,8 @@ Plug 'leafgarland/typescript-vim'
 
 " utils & theme
 Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'tpope/vim-sleuth'
+Plug 'AndrewRadev/splitjoin.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --update-rc' }
 Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
@@ -78,6 +80,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'valloric/MatchTagAlways'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
 Plug 'ap/vim-buftabline'
 Plug 'qpkorr/vim-bufkill'
 Plug 'justinmk/vim-sneak'
@@ -146,13 +149,6 @@ else
  silent! colorscheme flattened_dark
 endif
 syntax on
-
-""" indent
-autocmd Filetype php setlocal ts=4 sw=4 
-autocmd Filetype html setlocal ts=2 sw=2
-autocmd Filetype json setlocal ts=2 sw=2
-autocmd Filetype javascript setlocal ts=2 sw=2
-autocmd Filetype typescript setlocal ts=2 sw=2
 
 set foldcolumn=0
 if has('gui_running')
@@ -234,6 +230,13 @@ let g:rustfmt_autosave = 1
 set hidden
 nn <C-n> :bnext<CR>
 nn <C-p> :bprev<CR>
+
+""" splitjoin
+let g:splitjoin_split_mapping = ''
+let g:splitjoin_join_mapping = ''
+
+nn <Leader>gj :SplitjoinJoin<cr>
+nn <Leader>gs :SplitjoinSplit<cr>
 
 """ lightline
 set noshowmode
