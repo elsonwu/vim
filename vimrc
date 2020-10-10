@@ -84,6 +84,7 @@ Plug 'junegunn/gv.vim'
 Plug 'ap/vim-buftabline'
 Plug 'qpkorr/vim-bufkill'
 Plug 'justinmk/vim-sneak'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'prettier/vim-prettier', {
@@ -161,10 +162,10 @@ hi foldcolumn guibg=bg
 hi VertSplit guibg=bg guifg=bg
 
 """ test
-let test#strategy = 'terminal'
+let test#strategy = 'vimterminal'
 
 """ FZF search
-nn <C-f> :FZF<CR>
+nn <leader>F :FZF<CR>
 nn <leader>q :cclose<CR>
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -218,7 +219,6 @@ let g:NERDTreeDirArrowCollapsible = '-'
 let g:NERDTreeAutoDeleteBuffer = 1
 nn <leader>wh :NERDTreeToggle<CR>
 nn <leader>ff :NERDTreeFind<CR>
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 """ vim-go
 let g:go_fmt_command = "goimports"
