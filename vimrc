@@ -220,6 +220,7 @@ let g:NERDTreeDirArrowCollapsible = '-'
 let g:NERDTreeAutoDeleteBuffer = 1
 nn <leader>wh :NERDTreeToggle<CR>
 nn <leader>ff :NERDTreeFind<CR>
+nn <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 """ vim-go
 let g:go_fmt_command = "goimports"
