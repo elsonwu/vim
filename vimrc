@@ -192,18 +192,19 @@ let g:sneak#label = 1
 
 """ vim-startify
 au User Startified nmap <buffer> o <plug>(startify-open-buffers)
+
 let g:startify_custom_header = []
+let g:startify_session_persistence = 1
+let g:www_folders=split(globpath($HOME.'/www', '*/'), '\n')
 let g:startify_bookmarks = [ 
       \ $HOME.'/.vim/vimrc', 
       \ $HOME.'/www',
-      \ ]
+      \ ] + www_folders
 
 let g:startify_lists = [
-      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-      \ { 'type': 'files',     'header': ['   MRU']            },
-      \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-      \ { 'type': 'sessions',  'header': ['   Sessions']       },
-      \ { 'type': 'commands',  'header': ['   Commands']       },
+      \ { 'type': 'bookmarks', 'header': ['   Bookmarks'] },
+      \ { 'type': 'files',     'header': ['   MRU']       },
+      \ { 'type': 'sessions',  'header': ['   Sessions']  },
       \ ]
 
 """ NERDTree
