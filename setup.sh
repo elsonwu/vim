@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # common tools
-brew install vim ripgrep fzf
+brew install ripgrep fzf
+brew cask install macvim
 
 # font install
 brew tap homebrew/cask-fonts
