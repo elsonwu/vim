@@ -72,7 +72,6 @@ Plug 'leafgarland/typescript-vim'
 " utils & theme
 Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'tpope/vim-sleuth'
-Plug 'AndrewRadev/splitjoin.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --update-rc' }
 Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
@@ -198,7 +197,7 @@ command! -bang -nargs=* RW
   \   fzf#vim#with_preview(), <bang>0)
 
 """ Prettier
-nmap <Leader>fmt <Plug>(Prettier)
+nmap <leader>fmt <Plug>(Prettier)
 let g:prettier#autoformat_require_pragma = 1
 let g:prettier#autoformat_config_present = 1
 
@@ -247,13 +246,6 @@ let g:rustfmt_autosave = 1
 set hidden
 nn <C-n> :bnext<CR>
 nn <C-p> :bprev<CR>
-
-""" splitjoin
-let g:splitjoin_split_mapping = ''
-let g:splitjoin_join_mapping = ''
-
-nn <Leader>gj :SplitjoinJoin<cr>
-nn <Leader>gs :SplitjoinSplit<cr>
 
 """ lightline
 set noshowmode
