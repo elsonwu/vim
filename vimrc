@@ -112,6 +112,9 @@ Plug 'janko/vim-test'
 Plug 'djoshea/vim-autoread'
 call plug#end()
 
+""" basic
+command! Rload :source $MYVIMRC
+
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
 let g:lsp_diagnostics_enabled = 1
