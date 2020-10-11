@@ -116,6 +116,10 @@ call plug#end()
 
 """ basic
 command! Rload :source $MYVIMRC
+cnoremap <c-k> <up>
+cnoremap <c-j> <down>
+cnoremap <c-h> <left>
+cnoremap <c-l> <right>
 
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
