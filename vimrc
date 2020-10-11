@@ -4,7 +4,7 @@ set mouse=a
 set clipboard+=unnamed
 set noeb
 set novb
-set vb t_vb=
+set t_vb=
 set shell=/bin/zsh
 set confirm
 set nowrap
@@ -13,7 +13,7 @@ set history=1000
 set hid
 set enc=utf-8
 set fenc=utf-8
-set fencs=ucs-bom,utf-8,cp936,gb18030,gbk,gb2312
+set fencs=utf-8
 set laststatus=2
 set statusline=\ %F\ %Y\ %{&fileformat}\ %{&fileencoding}\ %{(&bomb?\"[BOM]\":\"\")}\ Row\ \[%l/%L\ %<%P]\ Col\ \[%c%V]\ \ %m\ %r
 set wildmenu
@@ -49,6 +49,8 @@ set backspace=indent,eol,start
 set pumheight=15
 set completeopt=menuone
 set complete-=k complete+=k
+set complete-=i   " disable scanning included files
+set complete-=t   " disable searching tags
 set tags+=tags;
 filetype plugin on
 
