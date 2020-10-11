@@ -116,10 +116,16 @@ call plug#end()
 
 """ basic
 command! Rload :source $MYVIMRC
+
+" remap the command line mode arrow keys
 cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 cnoremap <c-h> <left>
 cnoremap <c-l> <right>
+
+" keep selection
+xnoremap < <gv
+xnoremap > >gv
 
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
