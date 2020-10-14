@@ -115,6 +115,8 @@ call plug#end()
 
 """ basic
 command! Rload :source $MYVIMRC
+nn <leader>tt  :TestNearest<cr>
+nn <leader>TT  :TestFile<cr>
 
 " remap the command line mode arrow keys
 cnoremap <c-k> <up>
@@ -122,9 +124,17 @@ cnoremap <c-j> <down>
 cnoremap <c-h> <left>
 cnoremap <c-l> <right>
 
+inoremap <c-k> <up>
+inoremap <c-j> <down>
+inoremap <c-h> <left>
+inoremap <c-l> <right>
+
 " keep selection
 xnoremap < <gv
 xnoremap > >gv
+
+" select the block of code
+nn <leader>B ^vg_%
 
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
@@ -179,22 +189,26 @@ hi VertSplit guibg=bg guifg=bg
 let test#strategy = 'vimterminal'
 
 """ FZF search
-nn <leader>F :FZF<CR>
-nn <leader>q :cclose<CR>
+" search in case insensitive
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
+" search in case sensitive
 command! -bang -nargs=* RG
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always -s -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
+" search the word as keyword under current cursor
 command! -bang -nargs=* RW
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always -s -- '.expand('<cword>'), 1,
   \   fzf#vim#with_preview(), <bang>0)
+
+nn <leader>W :RW<cr>
+nn <leader>F :FZF<CR>
 
 """ Prettier
 nmap <leader>fmt <Plug>(Prettier)
