@@ -114,9 +114,11 @@ Plug 'djoshea/vim-autoread'
 call plug#end()
 
 """ basic
-command! Rload :source $MYVIMRC
-nn <leader>tt  :TestNearest<cr>
-nn <leader>TT  :TestFile<cr>
+nn <leader>rr :source $MYVIMRC<CR>
+nn <leader>tt  :TestNearest<CR>
+nn <leader>TT  :TestFile<CR>
+" select the block of code
+nn <leader>B ^vg_%
 
 " remap the command line mode arrow keys
 cnoremap <c-k> <up>
@@ -132,9 +134,6 @@ inoremap <c-l> <right>
 " keep selection
 xnoremap < <gv
 xnoremap > >gv
-
-" select the block of code
-nn <leader>B ^vg_%
 
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
@@ -207,7 +206,8 @@ command! -bang -nargs=* RW
   \   'rg --column --line-number --no-heading --color=always -s -- '.expand('<cword>'), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
-nn <leader>W :RW<cr>
+nn <leader>sw :RW<CR>
+nn <leader>W :Buffers<CR>
 nn <leader>F :FZF<CR>
 
 """ Prettier
