@@ -138,7 +138,7 @@ xnoremap > >gv
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
 let g:lsp_diagnostics_enabled = 1
-let g:lsp_signs_enabled = 0
+let g:lsp_signs_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_fold_enabled = 0
 let g:lsp_highlight_references_enabled = 0
