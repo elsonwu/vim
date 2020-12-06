@@ -77,7 +77,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
 Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
+Plug 'Raimondi/delimitMate'
 Plug 'valloric/MatchTagAlways'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -87,26 +88,7 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-" Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'branch': 'release/1.x',
-  \ 'for': [
-    \ 'javascript',
-    \ 'typescript',
-    \ 'css',
-    \ 'less',
-    \ 'scss',
-    \ 'json',
-    \ 'graphql',
-    \ 'markdown',
-    \ 'vue',
-    \ 'lua',
-    \ 'php',
-    \ 'python',
-    \ 'ruby',
-    \ 'html',
-    \ 'swift' ] }
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'romainl/flattened'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'janko/vim-test'
@@ -188,6 +170,7 @@ hi VertSplit guibg=bg guifg=bg
 let test#strategy = 'vimterminal'
 
 """ FZF search
+let g:fzf_layout={'window': {'width': 0.95, 'height': 0.6}}
 " search in case insensitive
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -212,8 +195,6 @@ nn <leader>F :FZF<CR>
 
 """ Prettier
 nmap <leader>fmt <Plug>(Prettier)
-let g:prettier#autoformat_require_pragma = 1
-let g:prettier#autoformat_config_present = 1
 
 """ sneak
 let g:sneak#label = 1
