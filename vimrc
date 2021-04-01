@@ -82,6 +82,8 @@ Plug 'Raimondi/delimitMate'
 Plug 'valloric/MatchTagAlways'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'zivyangll/git-blame.vim'
 Plug 'junegunn/gv.vim'
 Plug 'ap/vim-buftabline'
 Plug 'qpkorr/vim-bufkill'
@@ -120,11 +122,14 @@ xnoremap > >gv
 """ vim-lsp
 let g:asyncomplete_auto_popup = 0
 let g:lsp_diagnostics_enabled = 1
-let g:lsp_signs_enabled = 1
+let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_diagnostics_signs_enabled = 1
+let g:lsp_signs_enabled = 1
 let g:lsp_fold_enabled = 0
 let g:lsp_highlight_references_enabled = 0
-let g:lsp_documentation_float = 0
+let g:lsp_documentation_float = 1
+let g:lsp_preview_float = 1
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -147,7 +152,7 @@ set guioptions-=r
 set guioptions-=L
 set linespace=3
 set t_Co=256
-set guifont=JetBrains\ Mono:h14
+set guifont=JetBrains\ Mono\ NL:h14
 set background=dark
 if has('gui_running')
  silent! colorscheme dracula
@@ -254,3 +259,7 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead'
       \ },
       \ }
+
+
+""" git blame
+nnoremap <Leader>bb :<C-u>call gitblame#echo()<CR>
