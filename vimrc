@@ -68,6 +68,8 @@ Plug 'ajh17/VimCompletesMe'
 Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'rust-lang/rust.vim'
 Plug 'leafgarland/typescript-vim'
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
 
 " utils & theme
 Plug 'prabirshrestha/asyncomplete-file.vim'
