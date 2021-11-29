@@ -52,24 +52,37 @@ set complete-=k complete+=k
 set complete-=i   " disable scanning included files
 set complete-=t   " disable searching tags
 set tags+=tags;
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
 filetype plugin on
 
 """ Plug
 call plug#begin('~/.vim/plugged')
-" for lsp
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'ajh17/VimCompletesMe'
+" coc-nvim
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm install'}
 
-" language specific
-Plug 'fatih/vim-go', { 'tag': '*' }
-Plug 'rust-lang/rust.vim'
-Plug 'leafgarland/typescript-vim'
-Plug 'yuezk/vim-js'
-Plug 'maxmellon/vim-jsx-pretty'
 
 " utils & theme
 Plug 'prabirshrestha/asyncomplete-file.vim'
@@ -79,11 +92,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
 Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
-" Plug 'jiangmiao/auto-pairs'
 Plug 'Raimondi/delimitMate'
 Plug 'valloric/MatchTagAlways'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'zivyangll/git-blame.vim'
 Plug 'junegunn/gv.vim'
@@ -92,10 +103,8 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'romainl/flattened'
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'janko/vim-test'
 Plug 'djoshea/vim-autoread'
 call plug#end()
 
@@ -120,35 +129,6 @@ inoremap <c-l> <right>
 " keep selection
 xnoremap < <gv
 xnoremap > >gv
-
-""" vim-lsp
-let g:asyncomplete_auto_popup = 0
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_float_cursor = 1
-let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_diagnostics_signs_enabled = 1
-let g:lsp_diagnostics_float_delay = 200
-let g:lsp_diagnostics_echo_delay = 200
-let g:lsp_diagnostics_highlights_delay = 200
-let g:lsp_diagnostics_signs_delay = 200
-let g:lsp_signs_enabled = 1
-let g:lsp_fold_enabled = 0
-let g:lsp_highlight_references_enabled = 0
-let g:lsp_documentation_float = 1
-let g:lsp_preview_float = 1
-
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=number
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> <leader>h <plug>(lsp-hover)
-endfunction
-augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
 
 " terminal emulation
 nn <silent> <leader>sh :terminal<CR>
@@ -204,8 +184,6 @@ nn <leader>sw :RW<CR>
 nn <leader>W :Buffers<CR>
 nn <leader>F :FZF<CR>
 
-""" Prettier
-nmap <leader>fmt <Plug>(Prettier)
 
 """ sneak
 let g:sneak#label = 1
@@ -242,12 +220,6 @@ nn <leader>wh :NERDTreeToggle<CR>
 nn <leader>ff :NERDTreeFind<CR>
 nn <leader>cd :cd %:p:h<CR>:pwd<CR>
 
-""" vim-go
-let g:go_fmt_command = "goimports"
-
-""" rust
-let g:rustfmt_autosave = 1
-
 """ vim-buftabline
 set hidden
 nn <C-n> :bnext<CR>
@@ -266,6 +238,51 @@ let g:lightline = {
       \ },
       \ }
 
-
 """ git blame
 nnoremap <Leader>bb :<C-u>call gitblame#echo()<CR>
+
+""" coc-nvim
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+nmap <leader>fmt :Format<cr>
