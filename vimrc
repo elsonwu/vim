@@ -67,6 +67,9 @@ set updatetime=300
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 
+set nolazyredraw
+set encoding=UTF-8
+
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 if has("nvim-0.5.0") || has("patch-8.1.1564")
@@ -81,37 +84,50 @@ filetype plugin on
 """ Plug
 call plug#begin('~/.vim/plugged')
 " coc-nvim
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm install'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-
-" utils & theme
-Plug 'prabirshrestha/asyncomplete-file.vim'
+""" utils
 Plug 'tpope/vim-sleuth'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --update-rc' }
 Plug 'junegunn/fzf.vim'
-Plug 'preservim/nerdtree'
-Plug 'itchyny/lightline.vim'
+
+if has('nvim')
+  Plug 'kyazdani42/nvim-web-devicons' " for file icons
+  Plug 'kyazdani42/nvim-tree.lua'
+  Plug 'nvim-lualine/lualine.nvim'
+else
+  Plug 'preservim/nerdtree'
+  Plug 'itchyny/lightline.vim'
+endif
+
 Plug 'mhinz/vim-startify'
 Plug 'Raimondi/delimitMate'
-Plug 'valloric/MatchTagAlways'
 Plug 'tpope/vim-commentary'
-Plug 'airblade/vim-gitgutter'
-Plug 'zivyangll/git-blame.vim'
-Plug 'junegunn/gv.vim'
+Plug 'djoshea/vim-autoread'
+Plug 'voldikss/vim-floaterm'
+Plug 'jparise/vim-graphql'
+
+""" shortcut
 Plug 'ap/vim-buftabline'
 Plug 'qpkorr/vim-bufkill'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'romainl/flattened'
+
+""" theme
+" Plug 'romainl/flattened'
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'djoshea/vim-autoread'
+" Plug 'projekt0n/github-nvim-theme'
+
+""" git related
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'zivyangll/git-blame.vim'
+Plug 'junegunn/gv.vim'
+Plug 'ruanyl/vim-gh-line'
+
 call plug#end()
 
-""" basic
-nn <leader>rr :source $MYVIMRC<CR>
-nn <leader>tt  :TestNearest<CR>
-nn <leader>TT  :TestFile<CR>
 " select the block of code
 nn <leader>B ^vg_%
 
@@ -131,23 +147,31 @@ xnoremap < <gv
 xnoremap > >gv
 
 " terminal emulation
-nn <silent> <leader>sh :terminal<CR>
+" nn <silent> <leader>sh :terminal<CR>
+let g:floaterm_keymap_toggle = '<leader>sh'
+let g:floaterm_wintype = 'split'
+let g:floaterm_height = 0.4
+
+" delete current buffer
+nn <leader>ww :bdelete<CR>
 
 """ theme
 set guioptions-=r
 set guioptions-=L
 set linespace=3
 set t_Co=256
-set guifont=JetBrains\ Mono\ NL:h14
+" set guifont=JetBrains\ Mono\ NL:h14
+set guifont=Hack\ Nerd\ Font\ Mono:h14
 set background=dark
-if has('gui_running')
- silent! colorscheme dracula
-else
- silent! colorscheme flattened_dark
-endif
+colorscheme dracula
 syntax on
 
 set foldcolumn=0
+
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 if has('gui_running')
   hi LineNr guibg=NONE
   if (has("termguicolors"))
@@ -157,31 +181,28 @@ endif
 hi foldcolumn guibg=bg
 hi VertSplit guibg=bg guifg=bg
 
-""" test
-let test#strategy = 'vimterminal'
-
 """ FZF search
 let g:fzf_layout={'window': {'width': 0.95, 'height': 0.6}}
 " search in case insensitive
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   'rg --column --hidden --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
 " search in case sensitive
 command! -bang -nargs=* RG
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always -s -- '.shellescape(<q-args>), 1,
+  \   'rg --column --hidden --line-number --no-heading --color=always -s -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
 " search the word as keyword under current cursor
 command! -bang -nargs=* RW
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always -s -- '.expand('<cword>'), 1,
+  \   'rg --column --hidden --line-number --no-heading --color=always -s -- '.expand('<cword>'), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
 nn <leader>sw :RW<CR>
-nn <leader>W :Buffers<CR>
+nn <leader>sb :Buffers<CR>
 nn <leader>F :FZF<CR>
 
 
@@ -205,20 +226,45 @@ let g:startify_lists = [
       \ { 'type': 'sessions',  'header': ['   Sessions']  },
       \ ]
 
-""" NERDTree
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeChDirMode = 2
-let g:NERDTreeWinSize=40
-let g:NERDTreeIgnore = ['\~$', '\.pyc$', '\.DS_Store']
-let g:NERDTreeHijackNetrw = 1
-let g:NERDTreeCascadeSingleChildDir = 0
-let g:NERDTreeCascadeOpenSingleChildDir = 0
-let g:NERDTreeDirArrowExpandable = '+'
-let g:NERDTreeDirArrowCollapsible = '-'
-let g:NERDTreeAutoDeleteBuffer = 1
-nn <leader>wh :NERDTreeToggle<CR>
-nn <leader>ff :NERDTreeFind<CR>
-nn <leader>cd :cd %:p:h<CR>:pwd<CR>
+if has('nvim')
+  """ nvim-tree.lua
+  let g:netrw_altv = 1
+  let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+  let g:nvim_tree_git_hl = 0 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+  let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
+  let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
+  let g:nvim_tree_add_trailing = 1 "0 by default, append a trailing slash to folder names
+  let g:nvim_tree_group_empty = 1 " 0 by default, compact folders that only contain a single folder into one node in the file tree
+  let g:nvim_tree_icon_padding = ' ' "one space by default, used for rendering the space between the icon and the filename. Use with caution, it could break rendering if you set an empty string depending on your font.
+  let g:nvim_tree_symlink_arrow = ' >> ' " defaults to ' ➛ '. used as a separator between symlinks' source and target.
+  let g:nvim_tree_respect_buf_cwd = 1 "0 by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
+  let g:nvim_tree_create_in_closed_folder = 1 "0 by default, When creating files, sets the path of a file when cursor is on a closed folder to the parent folder when 0, and inside the folder when 1.
+  let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 } " List of filenames that gets highlighted with NvimTreeSpecialFile
+  let g:nvim_tree_show_icons = {
+        \ 'git': 0,
+        \ 'folders': 0,
+        \ 'files': 0,
+        \ 'folder_arrows': 1,
+        \ }
+  nn <leader>wh :NvimTreeToggle<CR>
+  nn <leader>ff :NvimTreeFindFileToggle<CR>
+else
+  """ NERDTree
+  let g:NERDTreeMinimalUI = 1
+  let g:NERDTreeChDirMode = 2
+  let g:NERDTreeWinSize=40
+  let g:NERDTreeIgnore = ['\~$', '\.pyc$', '\.DS_Store']
+  let g:NERDTreeHijackNetrw = 1
+  let g:NERDTreeCascadeSingleChildDir = 0
+  let g:NERDTreeCascadeOpenSingleChildDir = 0
+  let g:NERDTreeDirArrowExpandable = '+'
+  let g:NERDTreeDirArrowCollapsible = '-'
+  let g:NERDTreeAutoDeleteBuffer = 1
+  nn <leader>wh :NERDTreeToggle<CR>
+  nn <leader>ff :NERDTreeFind<CR>
+  nn <leader>cd :cd %:p:h<CR>:pwd<CR>
+endif
+
 
 """ vim-buftabline
 set hidden
@@ -227,19 +273,26 @@ nn <C-p> :bprev<CR>
 
 """ lightline
 set noshowmode
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ },
-      \ }
+if !has('nvim')
+  let g:lightline = {
+        \ 'colorscheme': 'wombat',
+        \ 'active': {
+          \   'left': [ [ 'mode', 'paste' ],
+          \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+          \ },
+          \ 'component_function': {
+            \   'gitbranch': 'FugitiveHead'
+            \ },
+            \ }
+endif
 
 """ git blame
 nnoremap <Leader>bb :<C-u>call gitblame#echo()<CR>
+
+""" open github page
+let g:gh_line_map_default = 0
+let g:gh_line_blame_map_default = 0
+let g:gh_line_map = '<leader>gith'
 
 """ coc-nvim
 " Use tab for trigger completion with characters ahead and navigate.
@@ -256,16 +309,14 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <leader>dd :CocDiagnostics<CR>
+nmap <leader>rn <Plug>(coc-rename)
+nnoremap <leader>fmt :call CocAction('format')<CR>
 
 " Use K to show documentation in preview window.
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
@@ -280,9 +331,14 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
 
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-nmap <leader>fmt :Format<cr>
+""" coc-jest
+" Run jest for current project
+command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
+" Run jest for current file
+command! -nargs=0 JestFile :call  CocAction('runCommand', 'jest.fileTest', ['%'])
+" Run jest for current test
+nnoremap <leader>tt :call CocAction('runCommand', 'jest.singleTest')<CR>
+
+" Init jest in current cwd, require global jest command exists
+command! JestInit :call CocAction('runCommand', 'jest.init')
