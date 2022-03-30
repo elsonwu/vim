@@ -14,8 +14,8 @@ set hid
 set enc=utf-8
 set fenc=utf-8
 set fencs=utf-8
-set laststatus=2
-set statusline=\ %F\ %Y\ %{&fileformat}\ %{&fileencoding}\ %{(&bomb?\"[BOM]\":\"\")}\ Row\ \[%l/%L\ %<%P]\ Col\ \[%c%V]\ \ %m\ %r
+" set laststatus=2
+" set statusline=\ %F\ %Y\ %{&fileformat}\ %{&fileencoding}\ %{(&bomb?\"[BOM]\":\"\")}\ Row\ \[%l/%L\ %<%P]\ Col\ \[%c%V]\ \ %m\ %r
 set wildmenu
 set showcmd
 set nosmd
@@ -23,42 +23,42 @@ set magic
 set shortmess=atI
 set scrolloff=5
 set cc=120
-set nu
+set number
 set cul
-set ambiwidth=double
+" set ambiwidth=double
 set smartcase
 set showmatch
-set noswapfile
 set mat=2
 set hls
 set incsearch
-set expandtab
-set autoindent " same level indent
-set cindent
+" set expandtab
+" set autoindent " same level indent
+" set cindent
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set foldmethod=manual   " fold manually only
 set nofoldenable        " dont fold by default
-set iskeyword+=_,@,%,#
+" set iskeyword+=_,@,%,#
 set linebreak
 set display=lastline
-set wildignore+=*.swp,*\\.git\\*,*\\.hg\\*,*\\.svn\\*,*/.git/*,*/.hg/*,*/.svn/*
+" set wildignore+=*.swp,*\\.git\\*,*\\.hg\\*,*\\.svn\\*,*/.git/*,*/.hg/*,*/.svn/*
 set formatoptions+=mM
 set backspace=indent,eol,start
-set pumheight=15
-set completeopt=menuone
-set complete-=k complete+=k
-set complete-=i   " disable scanning included files
-set complete-=t   " disable searching tags
-set tags+=tags;
+" set pumheight=15
+" set completeopt=menuone
+" set complete-=k complete+=k
+" set complete-=i   " disable scanning included files
+" set complete-=t   " disable searching tags
+" set tags+=tags;
 
 " Some servers have issues with backup files, see #649.
 set nobackup
 set nowritebackup
+set noswapfile
 
 " Give more space for displaying messages.
-set cmdheight=2
+" set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -70,14 +70,10 @@ set shortmess+=c
 set nolazyredraw
 set encoding=UTF-8
 
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("nvim-0.5.0") || has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+set splitright
+set splitbelow
+
+set signcolumn=number
 
 filetype plugin on
 
@@ -88,16 +84,19 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 """ utils
 Plug 'tpope/vim-sleuth'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --update-rc' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 if has('nvim')
   Plug 'kyazdani42/nvim-web-devicons' " for file icons
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'nvim-lualine/lualine.nvim'
+  Plug 'akinsho/bufferline.nvim'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 else
   Plug 'preservim/nerdtree'
   Plug 'itchyny/lightline.vim'
+  Plug 'ap/vim-buftabline'
 endif
 
 Plug 'mhinz/vim-startify'
@@ -107,17 +106,14 @@ Plug 'djoshea/vim-autoread'
 Plug 'voldikss/vim-floaterm'
 Plug 'jparise/vim-graphql'
 
-""" shortcut
-Plug 'ap/vim-buftabline'
 Plug 'qpkorr/vim-bufkill'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
+
 """ theme
-" Plug 'romainl/flattened'
 Plug 'dracula/vim', { 'as': 'dracula' }
-" Plug 'projekt0n/github-nvim-theme'
 
 """ git related
 Plug 'airblade/vim-gitgutter'
@@ -145,6 +141,9 @@ inoremap <c-l> <right>
 " keep selection
 xnoremap < <gv
 xnoremap > >gv
+
+" no tags
+let g:gutentags_enabled = 0
 
 " terminal emulation
 " nn <silent> <leader>sh :terminal<CR>
@@ -203,7 +202,7 @@ command! -bang -nargs=* RW
 
 nn <leader>sw :RW<CR>
 nn <leader>sb :Buffers<CR>
-nn <leader>F :FZF<CR>
+nn <leader>F :Files<CR>
 
 
 """ sneak
@@ -215,8 +214,9 @@ au User Startified nmap <buffer> o <plug>(startify-open-buffers)
 let g:startify_custom_header = []
 let g:startify_session_persistence = 1
 let g:www_folders=split(globpath($HOME.'/www', '*/'), '\n')
-let g:startify_bookmarks = [ 
-      \ $HOME.'/.vim/vimrc', 
+let g:startify_bookmarks = [
+      \ $HOME.'/.vim/vimrc',
+      \ $HOME.'/.config/nvim/init.vim',
       \ $HOME.'/www',
       \ ] + www_folders
 
@@ -228,24 +228,6 @@ let g:startify_lists = [
 
 if has('nvim')
   """ nvim-tree.lua
-  let g:netrw_altv = 1
-  let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
-  let g:nvim_tree_git_hl = 0 "0 by default, will enable file highlight for git attributes (can be used without the icons).
-  let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
-  let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
-  let g:nvim_tree_add_trailing = 1 "0 by default, append a trailing slash to folder names
-  let g:nvim_tree_group_empty = 1 " 0 by default, compact folders that only contain a single folder into one node in the file tree
-  let g:nvim_tree_icon_padding = ' ' "one space by default, used for rendering the space between the icon and the filename. Use with caution, it could break rendering if you set an empty string depending on your font.
-  let g:nvim_tree_symlink_arrow = ' >> ' " defaults to ' ➛ '. used as a separator between symlinks' source and target.
-  let g:nvim_tree_respect_buf_cwd = 1 "0 by default, will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
-  let g:nvim_tree_create_in_closed_folder = 1 "0 by default, When creating files, sets the path of a file when cursor is on a closed folder to the parent folder when 0, and inside the folder when 1.
-  let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 } " List of filenames that gets highlighted with NvimTreeSpecialFile
-  let g:nvim_tree_show_icons = {
-        \ 'git': 0,
-        \ 'folders': 0,
-        \ 'files': 0,
-        \ 'folder_arrows': 1,
-        \ }
   nn <leader>wh :NvimTreeToggle<CR>
   nn <leader>ff :NvimTreeFindFileToggle<CR>
 else
@@ -262,7 +244,6 @@ else
   let g:NERDTreeAutoDeleteBuffer = 1
   nn <leader>wh :NERDTreeToggle<CR>
   nn <leader>ff :NERDTreeFind<CR>
-  nn <leader>cd :cd %:p:h<CR>:pwd<CR>
 endif
 
 
