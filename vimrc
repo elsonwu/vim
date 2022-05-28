@@ -5,7 +5,7 @@ set clipboard+=unnamed
 set noeb
 set novb
 set t_vb=
-set shell=/bin/zsh
+" set shell=/bin/zsh
 set confirm
 set nowrap
 set bsdir=buffer

@@ -6,5 +6,6 @@ lua << EOF
 
 require'nvim-tree'.setup()
 require('lualine').setup()
+require('bufferline').setup()
 
 EOF
