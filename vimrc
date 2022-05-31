@@ -93,6 +93,7 @@ if has('nvim')
   Plug 'nvim-lualine/lualine.nvim'
   Plug 'akinsho/bufferline.nvim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'akinsho/git-conflict.nvim'
 else
   Plug 'preservim/nerdtree'
   Plug 'itchyny/lightline.vim'

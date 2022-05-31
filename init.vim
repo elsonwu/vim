@@ -7,5 +7,6 @@ lua << EOF
 require'nvim-tree'.setup()
 require('lualine').setup()
 require('bufferline').setup()
+require('git-conflict').setup()
 
 EOF
