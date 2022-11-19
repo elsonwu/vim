@@ -1,0 +1,6 @@
+require('setup-plugins.alpha')
+require('setup-plugins.bufferline')
+require('setup-plugins.cmp')
+require('setup-plugins.lspkind')
+require('setup-plugins.mason')
+require('setup-plugins.nvim-tree')
