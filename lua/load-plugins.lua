@@ -34,15 +34,11 @@ require('packer').startup(function(use)
   use 'tpope/vim-sleuth'
   use { 'junegunn/fzf', run = './install --bin', }
   use 'junegunn/fzf.vim'
-  -- use 'junegunn/fzf'
+
   use 'jxnblk/vim-mdx-js'
 
   use { 'goolord/alpha-nvim', requires = { 'nvim-tree/nvim-web-devicons' } }
 
-  -- formatter
-  -- use 'MunifTanjim/prettier.nvim'
-  -- use "lukas-reineke/lsp-format.nvim"
-  -- use 'mhartington/formatter.nvim'
   use 'sbdchd/neoformat'
 
   -- vscode-like icons in completion
@@ -52,6 +48,8 @@ require('packer').startup(function(use)
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
+
+  use 'simrat39/rust-tools.nvim'
 
   -- LSP Support
   use 'neovim/nvim-lspconfig'

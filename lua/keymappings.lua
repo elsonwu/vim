@@ -1,3 +1,13 @@
+vim.api.nvim_set_keymap('c', '<C-k>', '<Up>', {})
+vim.api.nvim_set_keymap('c', '<C-j>', '<Down>', {})
+vim.api.nvim_set_keymap('c', '<C-h>', '<Left>', {})
+vim.api.nvim_set_keymap('c', '<C-l>', '<Right>', {})
+
+vim.api.nvim_set_keymap('i', '<C-k>', '<Up>', {})
+vim.api.nvim_set_keymap('i', '<C-j>', '<Down>', {})
+vim.api.nvim_set_keymap('i', '<C-h>', '<Left>', {})
+vim.api.nvim_set_keymap('i', '<c-l>', '<Right>', {})
+
 vim.api.nvim_set_keymap('n', 'gd', ':lua vim.lsp.buf.definition()<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'gr', ':lua vim.lsp.buf.references()<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', 'rn', ':lua vim.lsp.buf.rename()<CR>', { silent = true })

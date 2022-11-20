@@ -15,5 +15,7 @@ vim.opt.cursorline = true
 vim.opt.signcolumn = 'yes'
 vim.opt.clipboard = vim.opt.clipboard + 'unnamedplus'
 vim.opt.termguicolors = true
+vim.opt.updatetime = 300
+
 
 pcall(vim.cmd, 'colorscheme dracula')
