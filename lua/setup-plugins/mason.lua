@@ -1,4 +1,4 @@
 -- Plugins setup
 require("mason").setup({
-  log_level = vim.log.levels.DEBUG
+  -- log_level = vim.log.levels.DEBUG
 })

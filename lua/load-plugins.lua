@@ -32,8 +32,10 @@ require('packer').startup(function(use)
   use 'tpope/vim-repeat'
   use 'tpope/vim-surround'
   use 'tpope/vim-sleuth'
-  use { 'junegunn/fzf', run = './install --bin', }
-  use 'junegunn/fzf.vim'
+  use {
+    'nvim-telescope/telescope.nvim', tag = '0.1.0',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
 
   use 'jxnblk/vim-mdx-js'
 
