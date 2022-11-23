@@ -8,12 +8,24 @@ require('packer').startup(function(use)
   -- colorscheme
   use { 'dracula/vim', as = 'dracula' }
 
+  -- Treesitter
+  use({
+    "nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate",
+  })
+
+  -- Telescope
+  use({
+    "nvim-telescope/telescope.nvim",
+    requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } },
+  })
+
   -- File exporer
   use {'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons'}, tag = 'nightly'}
   use {'nvim-lualine/lualine.nvim', requires = {'nvim-tree/nvim-web-devicons', opt = true}}
   use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
 
-  -- git related
+  -- Git related
   use 'airblade/vim-gitgutter'
   use 'tpope/vim-fugitive'
   use 'zivyangll/git-blame.vim'
@@ -32,24 +44,25 @@ require('packer').startup(function(use)
   use 'tpope/vim-repeat'
   use 'tpope/vim-surround'
   use 'tpope/vim-sleuth'
-  use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.0',
-    requires = { {'nvim-lua/plenary.nvim'} }
-  }
+  use 'sbdchd/neoformat'
 
   use 'jxnblk/vim-mdx-js'
-
   use { 'goolord/alpha-nvim', requires = { 'nvim-tree/nvim-web-devicons' } }
-
-  use 'sbdchd/neoformat'
 
   -- vscode-like icons in completion
   use "onsails/lspkind.nvim"
 
   -- LSP Autocompletion
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
+  use({
+    "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/cmp-cmdline", -- command line
+      "hrsh7th/cmp-buffer", -- buffer completions
+      "hrsh7th/cmp-nvim-lua", -- nvim config completions
+      "hrsh7th/cmp-nvim-lsp", -- lsp completions
+      "hrsh7th/cmp-path", -- file path completions
+    },
+  })
 
   use 'simrat39/rust-tools.nvim'
 
@@ -57,7 +70,4 @@ require('packer').startup(function(use)
   use 'neovim/nvim-lspconfig'
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
-
-  -- utils
-  use 'jose-elias-alvarez/null-ls.nvim'
 end)

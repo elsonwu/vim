@@ -1,5 +1,6 @@
 require('ls.eslint')
 require('ls.go')
+require('ls.jdtls')
 require('ls.json')
 require('ls.luals')
 require('ls.rust')
