@@ -20,15 +20,17 @@ vim.keymap.set('x', '>', ">gv", { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>Sw', ":lua require('spectre').open_visual({select_word=true})<CR>", {})
 
 -- LSP
-vim.keymap.set('n', 'rn', vim.lsp.buf.rename, { silent = true })
+vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { silent = true })
 vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, { silent = true })
 vim.keymap.set('n', '<leader>fmt', ':Neoformat<CR>', { silent = true })
 
 -- search + LSP
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>sf', builtin.find_files, {})
+vim.keymap.set('n', '<leader>sf', ':Telescope find_files find_command=rg,--smart-case,--ignore,--hidden,--files<CR>')
 vim.keymap.set('n', '<leader>ss', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>sw', builtin.grep_string, {})
+vim.keymap.set('n', '<leader>sb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>sm', builtin.marks, {})
 
 vim.keymap.set('n', 'gd', builtin.lsp_definitions, { silent = true })
 vim.keymap.set('n', 'gt', builtin.lsp_type_definitions, { silent = true })

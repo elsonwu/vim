@@ -1,5 +1,4 @@
 require('settings')
 require('load-plugins')
-require('ls')
 require('setup-plugins')
 require('keymappings')

@@ -20,6 +20,8 @@ require('packer').startup(function(use)
     requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } },
   })
 
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+
   -- File exporer
   use {'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons'}, tag = 'nightly'}
   use {'nvim-lualine/lualine.nvim', requires = {'nvim-tree/nvim-web-devicons', opt = true}}
@@ -45,6 +47,7 @@ require('packer').startup(function(use)
   use 'tpope/vim-surround'
   use 'tpope/vim-sleuth'
   use 'sbdchd/neoformat'
+  use 'folke/which-key.nvim'
 
   use 'windwp/nvim-ts-autotag'
   use 'windwp/nvim-spectre'
@@ -64,6 +67,7 @@ require('packer').startup(function(use)
       }
     end
   }
+
 
   use 'jxnblk/vim-mdx-js'
   use { 'goolord/alpha-nvim', requires = { 'nvim-tree/nvim-web-devicons' } }
