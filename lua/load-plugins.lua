@@ -23,9 +23,8 @@ require('packer').startup(function(use)
   use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons', config = function() require('bufferline').setup{} end}
 
   -- Git related
-  use 'airblade/vim-gitgutter'
-  use 'tpope/vim-fugitive'
-  use 'junegunn/gv.vim'
+  use {'f-person/git-blame.nvim', config = function() vim.g.gitblame_enabled = 0; end}
+  use {'lewis6991/gitsigns.nvim', config = function() require('gitsigns').setup() end}
 
   -- utils
   use 'Raimondi/delimitMate'
@@ -52,8 +51,8 @@ require('packer').startup(function(use)
 
   -- Debugger
   use 'mfussenegger/nvim-dap'
-  use { "mxsdev/nvim-dap-vscode-js", requires = {"mfussenegger/nvim-dap"} }
   use { "microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile" }
+  use { "mxsdev/nvim-dap-vscode-js", requires = {"mfussenegger/nvim-dap"} }
 
   -- LSP Autocompletion
   use({

@@ -62,3 +62,6 @@ keymap('n', '<leader>di',  ":lua require'dap'.step_into()<CR>", { silent = true 
 keymap('n', '<leader>db',  ":lua require'dap'.toggle_breakpoint()<CR>", { silent = true })
 keymap('n', '<leader>dd', ":lua require'dap'.repl.open()<CR>", { silent = true })
 keymap('n', '<leader>dl', ":lua require'dap'.run_last()<CR>", { silent = true })
+
+-- Git
+keymap('n', '<leader>bb', ":GitBlameToggle<CR>", { silent = true })
