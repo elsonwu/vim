@@ -64,4 +64,10 @@ keymap('n', '<leader>dd', ":lua require'dap'.repl.open()<CR>", { silent = true }
 keymap('n', '<leader>dl', ":lua require'dap'.run_last()<CR>", { silent = true })
 
 -- Git
-keymap('n', '<leader>bb', ":GitBlameToggle<CR>", { silent = true })
+keymap('n', '<leader>bb', ":Gitsigns blame_line<CR>", { silent = true })
+
+
+-- Highlight selected
+keymap( "v", "<leader>hl", ":<c-u>HSHighlight<CR>", { noremap = true, silent = true })
+keymap( "n", "<leader>hr", ":HSRmHighlight rm_all<CR>", { noremap = true, silent = true })
+

@@ -23,7 +23,6 @@ require('packer').startup(function(use)
   use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons', config = function() require('bufferline').setup{} end}
 
   -- Git related
-  use {'f-person/git-blame.nvim', config = function() vim.g.gitblame_enabled = 0; end}
   use {'lewis6991/gitsigns.nvim', config = function() require('gitsigns').setup() end}
 
   -- utils
@@ -38,13 +37,14 @@ require('packer').startup(function(use)
   use 'tpope/vim-surround'
   use 'tpope/vim-sleuth'
   use 'sbdchd/neoformat'
-  use {'folke/which-key.nvim', config = function() require('which-key').setup {} end }
+  use {'Pocco81/HighStr.nvim', config = function() require("high-str").setup{} end}
+  use {'folke/which-key.nvim', config = function() require('which-key').setup {} end}
 
   use 'windwp/nvim-ts-autotag'
   use 'windwp/nvim-spectre'
-  use { "windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup {} end }
+  use {"windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup {} end}
   use 'jxnblk/vim-mdx-js'
-  use { 'goolord/alpha-nvim', requires = { 'nvim-tree/nvim-web-devicons' } }
+  use {'goolord/alpha-nvim', requires = {'nvim-tree/nvim-web-devicons'}}
 
   -- vscode-like icons in completion
   use "onsails/lspkind.nvim"
