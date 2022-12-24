@@ -56,18 +56,18 @@ keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
 -- DAP debugger
 keymap('n', '<leader>dc', ":lua require'dap'.continue()<CR>", { silent = true })
 keymap('n', '<leader>d_', ":lua require'dap'.run_to_cursor()<CR>", { silent = true })
-keymap('n', '<leader>do',  ":lua require'dap'.step_over()<CR>", { silent = true })
-keymap('n', '<leader>dO',  ":lua require'dap'.step_out()<CR>", { silent = true })
-keymap('n', '<leader>di',  ":lua require'dap'.step_into()<CR>", { silent = true })
-keymap('n', '<leader>db',  ":lua require'dap'.toggle_breakpoint()<CR>", { silent = true })
+keymap('n', '<leader>do', ":lua require'dap'.step_over()<CR>", { silent = true })
+keymap('n', '<leader>dO', ":lua require'dap'.step_out()<CR>", { silent = true })
+keymap('n', '<leader>di', ":lua require'dap'.step_into()<CR>", { silent = true })
+keymap('n', '<leader>db', ":lua require'dap'.toggle_breakpoint()<CR>", { silent = true })
 keymap('n', '<leader>dd', ":lua require'dap'.repl.open()<CR>", { silent = true })
 keymap('n', '<leader>dl', ":lua require'dap'.run_last()<CR>", { silent = true })
 
 -- Git
 keymap('n', '<leader>bb', ":Gitsigns blame_line<CR>", { silent = true })
-
+keymap('n', ']x', '<Plug>(git-conflict-prev-conflict)')
+keymap('n', '[x', '<Plug>(git-conflict-next-conflict)')
 
 -- Highlight selected
 keymap( "v", "<leader>hl", ":<c-u>HSHighlight<CR>", { noremap = true, silent = true })
 keymap( "n", "<leader>hr", ":HSRmHighlight rm_all<CR>", { noremap = true, silent = true })
-

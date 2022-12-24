@@ -20,10 +20,11 @@ require('packer').startup(function(use)
   -- File exporer
   use {'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons'}, tag = 'nightly'}
   use {'nvim-lualine/lualine.nvim', requires = {'nvim-tree/nvim-web-devicons', opt = true}}
-  use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons', config = function() require('bufferline').setup{} end}
+  use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
 
   -- Git related
   use {'lewis6991/gitsigns.nvim', config = function() require('gitsigns').setup() end}
+  use {'akinsho/git-conflict.nvim', tag = "*"}
 
   -- utils
   use 'Raimondi/delimitMate'

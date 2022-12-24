@@ -1,10 +1,16 @@
 require('telescope').setup({
   defaults = {
-    initial_mode = 'normal',
-    path_display = {'smart'},
+    initial_mode = 'insert',
+    path_display = {'absolute'},
     wrap_results = true,
     layout_strategy = 'vertical',
     layout_config = { height = 0.95, width = 0.95 },
+    default_mappings = false,
+    mappings = {
+      i = {
+        ["<C-j>"] = require('telescope.actions').move_selection_next,
+      }
+    },
   },
   extensions = {
     fzf = {
