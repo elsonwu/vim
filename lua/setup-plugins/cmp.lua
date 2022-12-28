@@ -17,11 +17,6 @@ cmp.setup({
       maxwidth = 50,
     }),
   },
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
   mapping = {
     ["<C-p>"] = cmp.mapping.select_prev_item(),
     ["<C-n>"] = cmp.mapping.select_next_item(),
@@ -64,10 +59,10 @@ cmp.setup({
     { name = "path" },
   }),
   experimental = {
-    -- native_menu = false,
     ghost_text = true,
   },
   window = {
+    completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
 })
