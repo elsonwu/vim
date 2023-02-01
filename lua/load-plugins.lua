@@ -52,7 +52,7 @@ require('packer').startup(function(use)
 
   -- Debugger
   use 'mfussenegger/nvim-dap'
-  use { "microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile" }
+  -- use { "microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile" }
   use { "mxsdev/nvim-dap-vscode-js", requires = {"mfussenegger/nvim-dap"} }
 
   -- LSP Autocompletion
@@ -74,6 +74,13 @@ require('packer').startup(function(use)
   use 'neovim/nvim-lspconfig'
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
+  use {'j-hui/fidget.nvim', config = function() require('fidget').setup{} end}
 
-  use({ "glepnir/lspsaga.nvim", branch = "main" })
+  use({ "glepnir/lspsaga.nvim",
+    branch = "main",
+    requires = {{
+      "williamboman/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig"
+    }}
+  })
 end)

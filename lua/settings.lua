@@ -13,7 +13,8 @@ vim.opt.history = 1000
 vim.opt.showcmd = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = 'yes'
-vim.opt.clipboard = vim.opt.clipboard + 'unnamedplus'
+vim.opt.clipboard = 'unnamedplus'
+-- vim.opt.clipboard = vim.opt.clipboard + 'unnamedplus'
 vim.opt.termguicolors = true
 vim.opt.updatetime = 300
 

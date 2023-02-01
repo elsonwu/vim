@@ -18,16 +18,11 @@ keymap('n', '<C-p>', ':bprev<CR>', { silent = true })
 keymap('x', '<', "<gv", { noremap = true, silent = true })
 keymap('x', '>', ">gv", { noremap = true, silent = true })
 
--- search and replace current word
-keymap('n', '<leader>Sw', ":lua require('spectre').open_visual({select_word=true})<CR>", {})
-
 -- format
 keymap('n', '<leader>fmt', ':Neoformat<CR>', { silent = true })
 
 -- LSP
--- keymap('n', '<leader>rn', vim.lsp.buf.rename, { silent = true })
 keymap("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", { silent = true })
--- keymap('n', '<leader>h', vim.lsp.buf.hover, { silent = true })
 keymap("n", "<leader>h", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
 keymap({"n","v"}, "<leader>ga", "<cmd>Lspsaga code_action<CR>", { silent = true })
 
@@ -38,17 +33,17 @@ keymap('n', '<leader>ss', builtin.live_grep, {})
 keymap('n', '<leader>sw', builtin.grep_string, {})
 keymap('n', '<leader>sb', builtin.buffers, {})
 keymap('n', '<leader>sm', builtin.marks, {})
+-- search and replace current word
+keymap('n', '<leader>sr', ":lua require('spectre').open_visual({select_word=true})<CR>", {})
 
 keymap('n', 'gd', builtin.lsp_definitions, { silent = true })
 keymap("n", "<leader>gk", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
 keymap('n', '<leader>gt', builtin.lsp_type_definitions, { silent = true })
--- keymap('n', '<leader>gr', builtin.lsp_references, { silent = true })
 keymap("n", "<leader>gr", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
 keymap('n', '<leader>gi', builtin.lsp_implementations, { silent = true })
--- keymap('n', '<leader>gE', builtin.diagnostics, { silent = true })
 keymap("n", "<leader>gE", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
--- keymap('n', '<leader>ge', vim.diagnostic.open_float, { silent = true })
 keymap("n", "<leader>ge", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
+
 -- Diagnostic jump can use `<c-o>` to jump back
 keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
 keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
