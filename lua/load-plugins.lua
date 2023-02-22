@@ -40,6 +40,7 @@ require('packer').startup(function(use)
   use 'sbdchd/neoformat'
   use {'Pocco81/HighStr.nvim', config = function() require("high-str").setup{} end}
   use {'folke/which-key.nvim', config = function() require('which-key').setup {} end}
+  use({'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end})
 
   use 'windwp/nvim-ts-autotag'
   use 'windwp/nvim-spectre'
