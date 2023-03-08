@@ -15,7 +15,7 @@ require('packer').startup(function(use)
   use({'nvim-telescope/telescope.nvim', requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}}})
   -- Telescope plugins
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
-  use {'nvim-telescope/telescope-dap.nvim', requires = {{"nvim-telescope/telescope.nvim"}}}
+  -- use {'nvim-telescope/telescope-dap.nvim', requires = {{"nvim-telescope/telescope.nvim"}}}
 
   -- File exporer
   use {'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons'}, tag = 'nightly'}
@@ -52,9 +52,9 @@ require('packer').startup(function(use)
   use "onsails/lspkind.nvim"
 
   -- Debugger
-  use 'mfussenegger/nvim-dap'
+  -- use 'mfussenegger/nvim-dap'
   -- use { "microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile" }
-  use { "mxsdev/nvim-dap-vscode-js", requires = {"mfussenegger/nvim-dap"} }
+  -- use { "mxsdev/nvim-dap-vscode-js", requires = {"mfussenegger/nvim-dap"} }
 
   -- LSP Autocompletion
   use({
@@ -84,4 +84,7 @@ require('packer').startup(function(use)
       "neovim/nvim-lspconfig"
     }}
   })
+
+  use 'dstein64/vim-startuptime'
+  use 'lewis6991/impatient.nvim'
 end)

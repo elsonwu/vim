@@ -1,7 +1,7 @@
 require('setup-plugins.alpha')
 require('setup-plugins.bufferline')
 require('setup-plugins.cmp')
-require('setup-plugins.dap')
+-- require('setup-plugins.dap')
 require('setup-plugins.git-conflict')
 require('setup-plugins.leap')
 require('setup-plugins.lspkind')

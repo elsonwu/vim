@@ -52,9 +52,7 @@ cmp.setup({
     }),
   },
   sources = cmp.config.sources({
-    { name = "nvim_lua" },
     { name = "nvim_lsp" },
-    { name = "cmdline" },
     { name = "buffer" },
     { name = "path" },
   }),

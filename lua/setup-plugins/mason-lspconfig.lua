@@ -1,6 +1,6 @@
 require("mason-lspconfig").setup({
   automatic_installation = true,
-  ensure_installed = { "tsserver", "rust_analyzer", "sumneko_lua", "gopls", "vimls" },
+  ensure_installed = { "tsserver", "rust_analyzer", "gopls", "lua_ls", "vimls" },
 })
 
 local lspconfig = require("lspconfig");
@@ -11,16 +11,5 @@ require("mason-lspconfig").setup_handlers {
   function (server_name) -- default handler (optional)
     -- print("server_name", server_name)
     lspconfig[server_name].setup {}
-  end,
-  ["sumneko_lua"] = function ()
-    lspconfig.sumneko_lua.setup {
-      settings = {
-        Lua = {
-          diagnostics = {
-            globals = { "vim" }
-          }
-        }
-      }
-    }
   end,
 }
