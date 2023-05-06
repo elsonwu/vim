@@ -1,6 +1,6 @@
 require("mason-lspconfig").setup({
   automatic_installation = true,
-  ensure_installed = { "tsserver", "rust_analyzer", "gopls", "lua_ls", "vimls" },
+  ensure_installed = { "tsserver", "rust_analyzer", "gopls", "lua_ls", "vimls", "yamlls", "jsonls" },
 })
 
 local lspconfig = require("lspconfig");
@@ -9,7 +9,43 @@ require("mason-lspconfig").setup_handlers {
   -- and will be called for each installed server that doesn't have
   -- a dedicated handler.
   function (server_name) -- default handler (optional)
-    -- print("server_name", server_name)
     lspconfig[server_name].setup {}
   end,
+
+  ["yamlls"] = function ()
+    lspconfig.yamlls.setup {
+      settings = {
+        yaml = {
+          schemas = require('schemastore').yaml.schemas(),
+        }
+      }
+    }
+  end,
+
+  ["jsonls"] = function()
+    lspconfig.jsonls.setup {
+      settings = {
+        json = {
+          schemas = require('schemastore').json.schemas(),
+        },
+      },
+    }
+  end,
+
+  ["rust_analyzer"] = function ()
+    require("rust-tools").setup {}
+  end,
+
+  ["lua_ls"] = function ()
+    lspconfig.lua_ls.setup {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" }
+          }
+        }
+      }
+    }
+  end,
 }
+

@@ -41,8 +41,11 @@ keymap("n", "<leader>gk", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
 keymap('n', '<leader>gt', builtin.lsp_type_definitions, { silent = true })
 keymap("n", "<leader>gr", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
 keymap('n', '<leader>gi', builtin.lsp_implementations, { silent = true })
-keymap("n", "<leader>gE", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
+keymap("n", "<leader>gE", "<cmd>Lspsaga show_buf_diagnostics<CR>", { silent = true })
 keymap("n", "<leader>ge", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
+
+-- switch project
+keymap('n', '<leader>lw', ":lua require'telescope'.extensions.project.project{}<CR>", {noremap = true, silent = true})
 
 -- Diagnostic jump can use `<c-o>` to jump back
 keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })

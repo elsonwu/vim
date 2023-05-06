@@ -16,6 +16,7 @@ require('packer').startup(function(use)
   -- Telescope plugins
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
   -- use {'nvim-telescope/telescope-dap.nvim', requires = {{"nvim-telescope/telescope.nvim"}}}
+  use {'nvim-telescope/telescope-project.nvim'}
 
   -- File exporer
   use {'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons'}, tag = 'nightly'}
@@ -75,6 +76,7 @@ require('packer').startup(function(use)
   use 'neovim/nvim-lspconfig'
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
+  use "b0o/schemastore.nvim"
   use {'j-hui/fidget.nvim', config = function() require('fidget').setup{} end}
 
   use({ "glepnir/lspsaga.nvim",

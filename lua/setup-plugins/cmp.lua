@@ -52,9 +52,11 @@ cmp.setup({
     }),
   },
   sources = cmp.config.sources({
-    { name = "nvim_lsp" },
-    { name = "buffer" },
-    { name = "path" },
+    { name = 'nvim_lsp' },
+  }, {
+    { name = 'buffer' },
+  }, {
+    { name = 'path' },
   }),
   experimental = {
     ghost_text = true,

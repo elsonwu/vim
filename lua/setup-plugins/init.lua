@@ -11,5 +11,9 @@ require('setup-plugins.mason')
 require('setup-plugins.mason-lspconfig')
 require('setup-plugins.nvim-tree')
 require('setup-plugins.telescope')
-require('setup-plugins.treesitter')
+
+if not vim.g.vscode then
+	require('setup-plugins.treesitter')
+end
+
 require('setup-plugins.wilder')
