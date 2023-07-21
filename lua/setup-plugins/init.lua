@@ -13,7 +13,7 @@ require('setup-plugins.nvim-tree')
 require('setup-plugins.telescope')
 
 if not vim.g.vscode then
-	require('setup-plugins.treesitter')
+  require('setup-plugins.treesitter')
 end
 
 require('setup-plugins.wilder')

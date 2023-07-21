@@ -1,92 +1,92 @@
 ---
 -- Plugins
 ---
-require('packer').startup(function(use)
-  -- packer can update itself
-  use 'wbthomason/packer.nvim'
-
+require('lazy').setup({
   -- colorscheme
-  use { 'dracula/vim', as = 'dracula' }
+  { 'dracula/vim', name = 'dracula' },
 
   -- Treesitter
-  use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  { "nvim-treesitter/nvim-treesitter-textobjects", dependencies={"nvim-treesitter/nvim-treesitter"}},
 
   -- Telescope
-  use({'nvim-telescope/telescope.nvim', requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}}})
+  { 'nvim-telescope/telescope.nvim', lazy=true, dependencies={{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}},
+
   -- Telescope plugins
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
-  -- use {'nvim-telescope/telescope-dap.nvim', requires = {{"nvim-telescope/telescope.nvim"}}}
-  use {'nvim-telescope/telescope-project.nvim'}
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    lazy=true,
+    build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+  },
+
+  -- {'nvim-telescope/telescope-dap.nvim', dependencies = {{'nvim-telescope/telescope.nvim'}}}
+  {'nvim-telescope/telescope-project.nvim', lazy=true},
 
   -- File exporer
-  use {'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons'}, tag = 'nightly'}
-  use {'nvim-lualine/lualine.nvim', requires = {'nvim-tree/nvim-web-devicons', opt = true}}
-  use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
+  {'nvim-tree/nvim-tree.lua', lazy=true, dependencies = {'nvim-tree/nvim-web-devicons'}, version = 'nightly'},
+  {'nvim-lualine/lualine.nvim', lazy=true, dependencies = {'nvim-tree/nvim-web-devicons'}},
+  {'akinsho/bufferline.nvim', lazy=true, version = 'v3.*', dependencies = 'nvim-tree/nvim-web-devicons'},
 
   -- Git related
-  use {'lewis6991/gitsigns.nvim', config = function() require('gitsigns').setup() end}
-  use {'akinsho/git-conflict.nvim', tag = "*"}
+  {'lewis6991/gitsigns.nvim', lazy=true, config = true},
+  {'akinsho/git-conflict.nvim', lazy=true, version = '*'},
 
   -- utils
-  use 'Raimondi/delimitMate'
-  use 'tpope/vim-commentary'
-  use 'djoshea/vim-autoread'
-  use 'gelguy/wilder.nvim'
-  use 'jparise/vim-graphql'
-  use 'qpkorr/vim-bufkill'
-  use 'ggandor/leap.nvim'
-  use 'tpope/vim-repeat'
-  use 'tpope/vim-surround'
-  use 'tpope/vim-sleuth'
-  use 'sbdchd/neoformat'
-  use {'Pocco81/HighStr.nvim', config = function() require("high-str").setup{} end}
-  use {'folke/which-key.nvim', config = function() require('which-key').setup {} end}
-  use({'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end})
+  {'Raimondi/delimitMate', lazy=true, event='UIEnter'},
+  {'tpope/vim-commentary', lazy=true, event='UIEnter'},
+  {'djoshea/vim-autoread', lazy=true, event='UIEnter'},
+  {'gelguy/wilder.nvim', lazy=true, event='UIEnter'},
+  {'jparise/vim-graphql', lazy=true, event='UIEnter'},
+  {'qpkorr/vim-bufkill', lazy=true, event='UIEnter'},
+  {'ggandor/leap.nvim', lazy=true, event='UIEnter'},
+  {'tpope/vim-repeat', lazy=true, event='UIEnter'},
+  {'tpope/vim-surround', lazy=true, event='UIEnter'},
+  {'tpope/vim-sleuth', lazy=true, event='UIEnter'},
+  {'sbdchd/neoformat', lazy=true, event='UIEnter'},
+  {'Pocco81/HighStr.nvim', lazy=true, config = true, event='UIEnter'},
+  -- {'folke/which-key.nvim', config = true},
+  {'iamcco/markdown-preview.nvim', lazy=true, event='UIEnter', build = function() vim.fn['mkdp#util#install']() end},
 
-  use 'windwp/nvim-ts-autotag'
-  use 'windwp/nvim-spectre'
-  use {"windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup {} end}
-  use 'jxnblk/vim-mdx-js'
-  use {'goolord/alpha-nvim', requires = {'nvim-tree/nvim-web-devicons'}}
+  -- 'windwp/nvim-ts-autotag',
+  {'windwp/nvim-spectre', lazy = true, event='UIEnter'},
+  {'windwp/nvim-autopairs', lazy=true, config = true, event='UIEnter'},
+  {'jxnblk/vim-mdx-js', lazy=true, event='UIEnter'},
+  {'goolord/alpha-nvim', lazy=true, event='UIEnter', dependencies = {'nvim-tree/nvim-web-devicons'}},
 
   -- vscode-like icons in completion
-  use "onsails/lspkind.nvim"
-
-  -- Debugger
-  -- use 'mfussenegger/nvim-dap'
-  -- use { "microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile" }
-  -- use { "mxsdev/nvim-dap-vscode-js", requires = {"mfussenegger/nvim-dap"} }
+  {'onsails/lspkind.nvim', lazy=true, event = 'UIEnter'},
 
   -- LSP Autocompletion
-  use({
-    "hrsh7th/nvim-cmp",
-    requires = {
-      "hrsh7th/cmp-cmdline", -- command line
-      "hrsh7th/cmp-buffer", -- buffer completions
-      "hrsh7th/cmp-nvim-lua", -- nvim config completions
-      "hrsh7th/cmp-nvim-lsp", -- lsp completions
-      "hrsh7th/cmp-path", -- file path completions
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-cmdline', -- command line
+      'hrsh7th/cmp-buffer', -- buffer completions
+      'hrsh7th/cmp-nvim-lua', -- nvim config completions
+      'hrsh7th/cmp-nvim-lsp', -- lsp completions
+      'hrsh7th/cmp-path', -- file path completions
     },
-  })
+    event='UIEnter',
+    lazy = true,
+  },
 
   -- Better rust support
-  use 'simrat39/rust-tools.nvim'
+  {'simrat39/rust-tools.nvim', lazy = true },
 
   -- LSP Support
-  use 'neovim/nvim-lspconfig'
-  use 'williamboman/mason.nvim'
-  use 'williamboman/mason-lspconfig.nvim'
-  use "b0o/schemastore.nvim"
-  use {'j-hui/fidget.nvim', config = function() require('fidget').setup{} end}
+  {'neovim/nvim-lspconfig', lazy=true, event="UIEnter"},
+  {'williamboman/mason.nvim', lazy=true, event="UIEnter", build = ':MasonUpdate'},
+  {'williamboman/mason-lspconfig.nvim', lazy=true, event="UIEnter"},
+  {'b0o/schemastore.nvim', lazy=true, event="UIEnter"},
 
-  use({ "glepnir/lspsaga.nvim",
-    branch = "main",
-    requires = {{
-      "williamboman/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig"
-    }}
-  })
-
-  use 'dstein64/vim-startuptime'
-  use 'lewis6991/impatient.nvim'
-end)
+  {
+    'glepnir/lspsaga.nvim',
+    branch = 'main',
+    dependencies = {{
+      'williamboman/mason-lspconfig.nvim',
+      'neovim/nvim-lspconfig'
+    }},
+    lazy=true,
+    event='UIEnter'
+  },
+})

@@ -1,6 +1,14 @@
 require("mason-lspconfig").setup({
   automatic_installation = true,
-  ensure_installed = { "tsserver", "rust_analyzer", "gopls", "lua_ls", "vimls", "yamlls", "jsonls" },
+  ensure_installed = { 
+    "tsserver",
+    "rust_analyzer",
+    "gopls",
+    "lua_ls",
+    "vimls",
+    "jsonls",
+    "yamlls",
+  },
 })
 
 local lspconfig = require("lspconfig");
