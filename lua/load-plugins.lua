@@ -2,91 +2,129 @@
 -- Plugins
 ---
 require('lazy').setup({
-  -- colorscheme
-  { 'dracula/vim', name = 'dracula' },
+    -- colorscheme
+    {'dracula/vim', name = 'dracula'}, -- Treesitter
+    {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function() require('setup-plugins.treesitter') end
+    }, {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        dependencies = {"nvim-treesitter/nvim-treesitter"}
+    }, -- Telescope
+    {
+        'nvim-telescope/telescope.nvim',
+        lazy = true,
+        dependencies = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
+        config = function() require('setup-plugins.telescope') end
+    }, -- Telescope plugins
+    {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        lazy = true,
+        event = "UIEnter",
+        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+        dependencies = {'nvim-telescope/telescope.nvim'}
+    }, -- File exporer
+    {
+        'nvim-tree/nvim-tree.lua',
+        dependencies = {'nvim-tree/nvim-web-devicons'},
+        version = 'nightly',
+        config = function() require('setup-plugins.nvim-tree') end
+    }, {
+        'nvim-lualine/lualine.nvim',
+        lazy = true,
+        event = "UIEnter",
+        dependencies = {'nvim-tree/nvim-web-devicons'},
+        config = function() require('setup-plugins.lualine') end
+    }, {
+        'akinsho/bufferline.nvim',
+        lazy = true,
+        event = "UIEnter",
+        version = 'v3.*',
+        dependencies = 'nvim-tree/nvim-web-devicons',
+        config = function() require('setup-plugins.bufferline') end
+    }, -- Git related
+    {'lewis6991/gitsigns.nvim', lazy = true, config = true}, {
+        'akinsho/git-conflict.nvim',
+        lazy = true,
+        event = "UIEnter",
+        version = '*',
+        opt = {
+          {
+            default_mappings = false, -- disable buffer local mapping created by this plugin
+            default_commands = true, -- disable commands created by this plugin
+            disable_diagnostics = true -- This will disable the diagnostics in a buffer whilst it is conflicted
+          }
+        },
+        config =true 
+    }, -- utils
+    {'Raimondi/delimitMate', lazy = true, event = "UIEnter"},
+    {'tpope/vim-commentary', lazy = true, event = "UIEnter"},
+    {'djoshea/vim-autoread', lazy = true, event = "UIEnter"}, {
+        'gelguy/wilder.nvim',
+        lazy = true,
+        event = "UIEnter",
+        config = function() require('setup-plugins.wilder') end
+    }, {'jparise/vim-graphql', lazy = true, event = "UIEnter"},
 
-  -- Treesitter
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-  { "nvim-treesitter/nvim-treesitter-textobjects", dependencies={"nvim-treesitter/nvim-treesitter"}},
-
-  -- Telescope
-  { 'nvim-telescope/telescope.nvim', lazy=true, dependencies={{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}},
-
-  -- Telescope plugins
-  {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    lazy=true,
-    build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
-  },
-
-  -- {'nvim-telescope/telescope-dap.nvim', dependencies = {{'nvim-telescope/telescope.nvim'}}}
-  {'nvim-telescope/telescope-project.nvim', lazy=true},
-
-  -- File exporer
-  {'nvim-tree/nvim-tree.lua', lazy=true, dependencies = {'nvim-tree/nvim-web-devicons'}, version = 'nightly'},
-  {'nvim-lualine/lualine.nvim', lazy=true, dependencies = {'nvim-tree/nvim-web-devicons'}},
-  {'akinsho/bufferline.nvim', lazy=true, version = 'v3.*', dependencies = 'nvim-tree/nvim-web-devicons'},
-
-  -- Git related
-  {'lewis6991/gitsigns.nvim', lazy=true, config = true},
-  {'akinsho/git-conflict.nvim', lazy=true, version = '*'},
-
-  -- utils
-  {'Raimondi/delimitMate', lazy=true, event='UIEnter'},
-  {'tpope/vim-commentary', lazy=true, event='UIEnter'},
-  {'djoshea/vim-autoread', lazy=true, event='UIEnter'},
-  {'gelguy/wilder.nvim', lazy=true, event='UIEnter'},
-  {'jparise/vim-graphql', lazy=true, event='UIEnter'},
-  {'qpkorr/vim-bufkill', lazy=true, event='UIEnter'},
-  {'ggandor/leap.nvim', lazy=true, event='UIEnter'},
-  {'tpope/vim-repeat', lazy=true, event='UIEnter'},
-  {'tpope/vim-surround', lazy=true, event='UIEnter'},
-  {'tpope/vim-sleuth', lazy=true, event='UIEnter'},
-  {'sbdchd/neoformat', lazy=true, event='UIEnter'},
-  {'Pocco81/HighStr.nvim', lazy=true, config = true, event='UIEnter'},
-  -- {'folke/which-key.nvim', config = true},
-  {'iamcco/markdown-preview.nvim', lazy=true, event='UIEnter', build = function() vim.fn['mkdp#util#install']() end},
-
-  -- 'windwp/nvim-ts-autotag',
-  {'windwp/nvim-spectre', lazy = true, event='UIEnter'},
-  {'windwp/nvim-autopairs', lazy=true, config = true, event='UIEnter'},
-  {'jxnblk/vim-mdx-js', lazy=true, event='UIEnter'},
-  {'goolord/alpha-nvim', lazy=true, event='UIEnter', dependencies = {'nvim-tree/nvim-web-devicons'}},
-
-  -- vscode-like icons in completion
-  {'onsails/lspkind.nvim', lazy=true, event = 'UIEnter'},
-
-  -- LSP Autocompletion
-  {
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      'hrsh7th/cmp-cmdline', -- command line
-      'hrsh7th/cmp-buffer', -- buffer completions
-      'hrsh7th/cmp-nvim-lua', -- nvim config completions
-      'hrsh7th/cmp-nvim-lsp', -- lsp completions
-      'hrsh7th/cmp-path', -- file path completions
-    },
-    event='UIEnter',
-    lazy = true,
-  },
-
-  -- Better rust support
-  {'simrat39/rust-tools.nvim', lazy = true },
-
-  -- LSP Support
-  {'neovim/nvim-lspconfig', lazy=true, event="UIEnter"},
-  {'williamboman/mason.nvim', lazy=true, event="UIEnter", build = ':MasonUpdate'},
-  {'williamboman/mason-lspconfig.nvim', lazy=true, event="UIEnter"},
-  {'b0o/schemastore.nvim', lazy=true, event="UIEnter"},
-
-  {
-    'glepnir/lspsaga.nvim',
-    branch = 'main',
-    dependencies = {{
-      'williamboman/mason-lspconfig.nvim',
-      'neovim/nvim-lspconfig'
-    }},
-    lazy=true,
-    event='UIEnter'
-  },
+    {'qpkorr/vim-bufkill', lazy = true, event = "UIEnter"},
+    {'ggandor/leap.nvim', config = function() require('setup-plugins.leap') end},
+    {'tpope/vim-repeat', lazy = true, event = "UIEnter"},
+    {'tpope/vim-surround', lazy = true, event = "UIEnter"},
+    {'tpope/vim-sleuth', lazy = true},
+    {'sbdchd/neoformat', lazy = true, event = "UIEnter"},
+    {'Pocco81/HighStr.nvim', lazy = true, config = true, event = "UIEnter"}, {
+        'iamcco/markdown-preview.nvim',
+        lazy = true,
+        event = "UIEnter",
+        build = function() vim.fn['mkdp#util#install']() end
+    }, {'windwp/nvim-spectre', lazy = true, event = "UIEnter"},
+    {'windwp/nvim-autopairs', lazy = true, event = "UIEnter", config = true},
+    {'jxnblk/vim-mdx-js', lazy = true}, {
+        'goolord/alpha-nvim',
+        dependencies = {'nvim-tree/nvim-web-devicons'},
+        config = function() require('setup-plugins.alpha') end
+    }, -- vscode-like icons in completion
+    {
+        'onsails/lspkind.nvim',
+        lazy = true,
+        event = "UIEnter",
+        config = function() require('setup-plugins.lspkind') end
+    }, -- LSP Autocompletion
+    {
+        'hrsh7th/nvim-cmp',
+        dependencies = {
+            'hrsh7th/cmp-cmdline', -- command line
+            'hrsh7th/cmp-buffer', -- buffer completions
+            'hrsh7th/cmp-nvim-lua', -- nvim config completions
+            'hrsh7th/cmp-nvim-lsp', -- lsp completions
+            'hrsh7th/cmp-path' -- file path completions
+        },
+        lazy = true,
+        event = "UIEnter",
+        config = function() require('setup-plugins.cmp') end
+    }, -- Better rust support
+    {'simrat39/rust-tools.nvim', lazy = true}, -- LSP Support
+    {'neovim/nvim-lspconfig', lazy = true}, {
+        'williamboman/mason.nvim',
+        lazy = true,
+        build = ':MasonUpdate',
+        config = function() require('setup-plugins.mason') end
+    }, {
+        'williamboman/mason-lspconfig.nvim',
+        lazy = true,
+        dependencies = {'williamboman/mason.nvim'},
+        config = function() require('setup-plugins.mason-lspconfig') end
+    }, {'b0o/schemastore.nvim', lazy = true, event = "UIEnter"}, {
+        'glepnir/lspsaga.nvim',
+        branch = 'main',
+        dependencies = {
+            {'williamboman/mason-lspconfig.nvim', 'neovim/nvim-lspconfig'}
+        },
+        lazy = true,
+        event = 'UIEnter',
+        config = function()
+            require("lspsaga").setup({request_timeout = 5000})
+        end
+    }
 })

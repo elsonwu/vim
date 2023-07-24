@@ -27,18 +27,18 @@ require('telescope').setup({
       override_file_sorter = true,     -- override the file sorter
       case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
     },
-    project = {
-      base_dirs = {
-        '~/www',
-      },
-      theme = "dropdown",
-      order_by = "asc",
-      search_by = "title",
-      sync_with_nvim_tree = true, -- default false
-    }
+    -- project = {
+    --   base_dirs = {
+    --     '~/www',
+    --   },
+    --   theme = "dropdown",
+    --   order_by = "asc",
+    --   search_by = "title",
+    --   sync_with_nvim_tree = true, -- default false
+    -- }
   },
 })
 
 require('telescope').load_extension('fzf')
-require('telescope').load_extension('project')
+-- require('telescope').load_extension('project')
 -- require('telescope').load_extension('dap')
