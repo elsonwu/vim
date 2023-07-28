@@ -15,6 +15,5 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('load-plugins')
--- require('setup-plugins')
 require('settings')
 require('keymappings')

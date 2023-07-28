@@ -7,14 +7,19 @@ require('lazy').setup({
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
+        lazy = true,
+        event = "UIEnter",
         config = function() require('setup-plugins.treesitter') end
     }, {
         "nvim-treesitter/nvim-treesitter-textobjects",
+        lazy = true,
+        event = "UIEnter",
         dependencies = {"nvim-treesitter/nvim-treesitter"}
     }, -- Telescope
     {
         'nvim-telescope/telescope.nvim',
         lazy = true,
+        event = "UIEnter",
         dependencies = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
         config = function() require('setup-plugins.telescope') end
     }, -- Telescope plugins
@@ -28,6 +33,9 @@ require('lazy').setup({
     {
         'nvim-tree/nvim-tree.lua',
         dependencies = {'nvim-tree/nvim-web-devicons'},
+        priority = 100,
+        -- lazy = true,
+        -- event = "UIEnter",
         version = 'nightly',
         config = function() require('setup-plugins.nvim-tree') end
     }, {
@@ -44,19 +52,20 @@ require('lazy').setup({
         dependencies = 'nvim-tree/nvim-web-devicons',
         config = function() require('setup-plugins.bufferline') end
     }, -- Git related
-    {'lewis6991/gitsigns.nvim', lazy = true, config = true}, {
+    {'lewis6991/gitsigns.nvim', lazy = true, event = 'UIEnter', config = true},
+    {
         'akinsho/git-conflict.nvim',
         lazy = true,
         event = "UIEnter",
         version = '*',
         opt = {
-          {
-            default_mappings = false, -- disable buffer local mapping created by this plugin
-            default_commands = true, -- disable commands created by this plugin
-            disable_diagnostics = true -- This will disable the diagnostics in a buffer whilst it is conflicted
-          }
+            {
+                default_mappings = false, -- disable buffer local mapping created by this plugin
+                default_commands = true, -- disable commands created by this plugin
+                disable_diagnostics = true -- This will disable the diagnostics in a buffer whilst it is conflicted
+            }
         },
-        config =true 
+        config = true
     }, -- utils
     {'Raimondi/delimitMate', lazy = true, event = "UIEnter"},
     {'tpope/vim-commentary', lazy = true, event = "UIEnter"},
@@ -67,18 +76,22 @@ require('lazy').setup({
         config = function() require('setup-plugins.wilder') end
     }, {'jparise/vim-graphql', lazy = true, event = "UIEnter"},
 
-    {'qpkorr/vim-bufkill', lazy = true, event = "UIEnter"},
-    {'ggandor/leap.nvim', config = function() require('setup-plugins.leap') end},
-    {'tpope/vim-repeat', lazy = true, event = "UIEnter"},
+    {'qpkorr/vim-bufkill', lazy = true, event = "UIEnter"}, {
+        'ggandor/leap.nvim',
+        lazy = true,
+        event = "UIEnter",
+        config = function() require('setup-plugins.leap') end
+    }, {'tpope/vim-repeat', lazy = true, event = "UIEnter"},
     {'tpope/vim-surround', lazy = true, event = "UIEnter"},
-    {'tpope/vim-sleuth', lazy = true},
+    {'tpope/vim-sleuth', lazy = true, event = "UIEnter"},
     {'sbdchd/neoformat', lazy = true, event = "UIEnter"},
     {'Pocco81/HighStr.nvim', lazy = true, config = true, event = "UIEnter"}, {
         'iamcco/markdown-preview.nvim',
         lazy = true,
         event = "UIEnter",
         build = function() vim.fn['mkdp#util#install']() end
-    }, {'windwp/nvim-spectre', lazy = true, event = "UIEnter"},
+    }, -- search & replace
+    {'windwp/nvim-spectre', lazy = true, event = "UIEnter"},
     {'windwp/nvim-autopairs', lazy = true, event = "UIEnter", config = true},
     {'jxnblk/vim-mdx-js', lazy = true}, {
         'goolord/alpha-nvim',
@@ -94,7 +107,7 @@ require('lazy').setup({
     {
         'hrsh7th/nvim-cmp',
         dependencies = {
-            'hrsh7th/cmp-cmdline', -- command line
+            -- 'hrsh7th/cmp-cmdline', -- command line
             'hrsh7th/cmp-buffer', -- buffer completions
             'hrsh7th/cmp-nvim-lua', -- nvim config completions
             'hrsh7th/cmp-nvim-lsp', -- lsp completions
@@ -104,15 +117,21 @@ require('lazy').setup({
         event = "UIEnter",
         config = function() require('setup-plugins.cmp') end
     }, -- Better rust support
-    {'simrat39/rust-tools.nvim', lazy = true}, -- LSP Support
-    {'neovim/nvim-lspconfig', lazy = true}, {
+    {
+        'simrat39/rust-tools.nvim',
+        lazy = true,
+        dependencies = {'neovim/nvim-lspconfig'}
+    }, -- LSP Support
+    {'neovim/nvim-lspconfig', lazy = true, event = "UIEnter"}, {
         'williamboman/mason.nvim',
         lazy = true,
+        event = "UIEnter",
         build = ':MasonUpdate',
         config = function() require('setup-plugins.mason') end
     }, {
         'williamboman/mason-lspconfig.nvim',
         lazy = true,
+        event = "UIEnter",
         dependencies = {'williamboman/mason.nvim'},
         config = function() require('setup-plugins.mason-lspconfig') end
     }, {'b0o/schemastore.nvim', lazy = true, event = "UIEnter"}, {
@@ -126,5 +145,18 @@ require('lazy').setup({
         config = function()
             require("lspsaga").setup({request_timeout = 5000})
         end
+    }
+}, {
+    performance = {
+        cache = {enabled = true},
+        reset_packpath = true, -- reset the package path to improve startup time
+        rtp = {
+            reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
+            paths = {}, -- add any custom paths here that you want to includes in the rtp
+            disabled_plugins = {
+                "gzip", "man", "matchit", "matchparen", "netrwPlugin",
+                "tarPlugin", "tohtml", "tutor", "zipPlugin", "rplugin", "shada"
+            }
+        }
     }
 })

@@ -18,6 +18,10 @@ vim.opt.clipboard = 'unnamedplus'
 vim.opt.termguicolors = true
 vim.opt.updatetime = 300
 
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- better diagnostic sign
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do

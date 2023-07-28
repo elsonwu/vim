@@ -26,24 +26,6 @@ keymap("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", { silent = true })
 keymap("n", "<leader>h", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
 keymap({"n","v"}, "<leader>ga", "<cmd>Lspsaga code_action<CR>", { silent = true })
 
--- search + LSP
-local builtin = require('telescope.builtin')
-keymap('n', '<leader>sf', ':Telescope find_files find_command=rg,--smart-case,--ignore,--hidden,--files<CR>')
-keymap('n', '<leader>ss', builtin.live_grep, {})
-keymap('n', '<leader>sw', builtin.grep_string, {})
-keymap('n', '<leader>sb', builtin.buffers, {})
-keymap('n', '<leader>sm', builtin.marks, {})
--- search and replace current word
-keymap('n', '<leader>sr', ":lua require('spectre').open_visual({select_word=true})<CR>", {})
-
-keymap('n', 'gd', builtin.lsp_definitions, { silent = true })
-keymap("n", "<leader>gk", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
-keymap('n', '<leader>gt', builtin.lsp_type_definitions, { silent = true })
-keymap("n", "<leader>gr", "<cmd>Lspsaga finder<CR>", { silent = true })
-keymap('n', '<leader>gi', builtin.lsp_implementations, { silent = true })
-keymap("n", "<leader>gE", "<cmd>Lspsaga show_buf_diagnostics<CR>", { silent = true })
-keymap("n", "<leader>ge", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
-
 -- switch project
 keymap('n', '<leader>lw', ":lua require'telescope'.extensions.project.project{}<CR>", {noremap = true, silent = true})
 
